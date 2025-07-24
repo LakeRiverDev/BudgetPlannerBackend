@@ -1,4 +1,4 @@
-﻿namespace BP.Core
+﻿namespace BP.DataBase.Models
 {
     /// <summary>
     /// Базовая сущность, от отороый все другие сущности наследуются

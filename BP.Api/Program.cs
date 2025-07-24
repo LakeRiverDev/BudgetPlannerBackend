@@ -1,14 +1,28 @@
+using BP.Application.Interfaces;
+using BP.Application.Services;
+using BP.DataBase;
+using BP.DataBase.Interfaces;
+using BP.DataBase.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<IOperationService, OperationService>();
+builder.Services.AddScoped<IOperationsRepository, OperationsRepository>();
+
+var connectionString = builder.Configuration.GetSection("ConnectionString");
+builder.Services.AddDbContext<BPlannerDbContext>(
+    options =>
+    {
+        options.UseNpgsql(connectionString.Value);
+    });
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

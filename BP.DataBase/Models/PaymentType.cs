@@ -1,4 +1,4 @@
-﻿namespace BP.Core
+﻿namespace BP.DataBase.Models
 {
     /// <summary>
     /// Тип платежа
@@ -8,6 +8,6 @@
         /// <summary>
         /// Название типа платежа(наличные, безналичные)
         /// </summary>
-        public string Name { get;set; }
+        public string Name { get; set; }
     }
 }

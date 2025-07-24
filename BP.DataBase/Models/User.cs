@@ -1,4 +1,4 @@
-﻿namespace BP.Core
+﻿namespace BP.DataBase.Models
 {
     /// <summary>
     /// Сущность пользователя
@@ -26,8 +26,8 @@
         public string Email { get; set; }
 
         /// <summary>
-        /// Дата рождения пользователя
+        /// Для связи с оператором в приложении
         /// </summary>
-        public DateTime BirthDate { get; set; }
+        public long OperatorId { get; set; }
     }
 }
