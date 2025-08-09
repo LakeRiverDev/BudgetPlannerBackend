@@ -6,7 +6,7 @@ namespace BP.DataBase.Interfaces
     {
         public Task<IEnumerable<Operation>> GetAllOperationByUserIdAsync(long userId);
         public Task AddOperationAsync(Operation operation);
-        public Task<long> EditOperationAsync(Operation operation);
-        public Task<long> DeleteOperationAsync(long operationId);
+        public Task<Guid> EditOperationAsync(Operation operation);
+        public Task<Guid> DeleteOperationAsync(Guid operationId);
     }
 }

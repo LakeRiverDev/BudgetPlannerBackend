@@ -27,8 +27,7 @@ namespace BP.DataBase.Repositories
         {
             try
             {
-                var operations = await dbContext.Operations.ToListAsync();
-                await dbContext.SaveChangesAsync();
+                var operations = await dbContext.Operations.ToListAsync();                
 
                 logger.LogInformation("Repository OK");
 
@@ -47,7 +46,7 @@ namespace BP.DataBase.Repositories
         /// <param name="operation"></param>
         /// <returns></returns>
         public async Task AddOperationAsync(Operation operation)
-        {
+        {            
             try
             {
                 await dbContext.Operations.AddAsync(operation);
@@ -67,7 +66,7 @@ namespace BP.DataBase.Repositories
         /// </summary>
         /// <param name="operation"></param>
         /// <returns></returns>
-        public async Task<long> EditOperationAsync(Operation operation)
+        public async Task<Guid> EditOperationAsync(Operation operation)
         {
             try
             {
@@ -95,7 +94,7 @@ namespace BP.DataBase.Repositories
         /// </summary>
         /// <param name="operationId"></param>
         /// <returns></returns>
-        public async Task<long> DeleteOperationAsync(long operationId)
+        public async Task<Guid> DeleteOperationAsync(Guid operationId)
         {
             try
             {

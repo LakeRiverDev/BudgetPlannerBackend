@@ -3,7 +3,7 @@
     /// <summary>
     /// Тип платежа
     /// </summary>
-    public class PaymentType : BaseEntity<long>
+    public class PaymentType : BaseEntity<Guid>
     {
         /// <summary>
         /// Название типа платежа(наличные, безналичные)

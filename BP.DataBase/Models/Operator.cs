@@ -1,6 +1,6 @@
 ﻿namespace BP.DataBase.Models
 {
-    public class Operator : BaseEntity<long>
+    public class Operator : BaseEntity<Guid>
     {
         /// <summary>
         /// Для связи с пользователем

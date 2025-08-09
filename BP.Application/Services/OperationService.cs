@@ -1,12 +1,7 @@
 ﻿using BP.Application.Interfaces;
-using BP.Core;
 using BP.DataBase.Interfaces;
+using BP.DataBase.Models;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BP.Application.Services
 {
@@ -21,32 +16,36 @@ namespace BP.Application.Services
             this.operationsRepository = operationsRepository;
         }
 
-        public async Task<IEnumerable<Operation>> GetAllUserOperations(long userId)
+        /// <summary>
+        /// Получить все операции пользователя
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<Operation>> GetAllUserOperationsAsync(long userId)
         {
             try
             {
                 var operations = await operationsRepository.GetAllOperationByUserIdAsync(userId);
 
-                return operations.Select(o=> new Operation
-                {
-                    
-                });
+                return operations;
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 throw;
-            }                        
+            }
+        }
+
+        /// <summary>
+        /// Добавить операцию в бд
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <returns></returns>
+        public async Task<Guid> AddOperationAsync(Operation operation)
+        {
+            await operationsRepository.AddOperationAsync(operation);
+
+            return operation.Id;
         }        
-
-        //public async Task<long> AddOperation(Operation operation)
-        //{
-        //    var operation = new Operation
-        //    {
-
-        //    };
-
-        //    await operationsRepository.AddOperationAsync(operation);
-        //}
     }
 }

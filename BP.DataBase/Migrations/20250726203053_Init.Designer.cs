@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BP.DataBase.Migrations
 {
     [DbContext(typeof(BPlannerDbContext))]
-    [Migration("20250724183006_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250726203053_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,9 @@ namespace BP.DataBase.Migrations
 
             modelBuilder.Entity("BP.DataBase.Models.Operation", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
@@ -42,11 +40,17 @@ namespace BP.DataBase.Migrations
                     b.Property<long>("OperationTypeId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("OperatorId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("OperationTypeId1")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("OperatorId")
+                        .HasColumnType("uuid");
 
                     b.Property<long>("PaymentTypeId")
                         .HasColumnType("bigint");
+
+                    b.Property<Guid>("PaymentTypeId1")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Reason")
                         .IsRequired()
@@ -60,22 +64,20 @@ namespace BP.DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OperationTypeId");
+                    b.HasIndex("OperationTypeId1");
 
                     b.HasIndex("OperatorId");
 
-                    b.HasIndex("PaymentTypeId");
+                    b.HasIndex("PaymentTypeId1");
 
                     b.ToTable("Operations");
                 });
 
             modelBuilder.Entity("BP.DataBase.Models.OperationType", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
@@ -94,11 +96,9 @@ namespace BP.DataBase.Migrations
 
             modelBuilder.Entity("BP.DataBase.Models.Operator", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
@@ -116,11 +116,9 @@ namespace BP.DataBase.Migrations
 
             modelBuilder.Entity("BP.DataBase.Models.PaymentType", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
@@ -139,11 +137,9 @@ namespace BP.DataBase.Migrations
 
             modelBuilder.Entity("BP.DataBase.Models.User", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
@@ -179,7 +175,7 @@ namespace BP.DataBase.Migrations
                 {
                     b.HasOne("BP.DataBase.Models.OperationType", "OperationType")
                         .WithMany()
-                        .HasForeignKey("OperationTypeId")
+                        .HasForeignKey("OperationTypeId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -189,7 +185,7 @@ namespace BP.DataBase.Migrations
 
                     b.HasOne("BP.DataBase.Models.PaymentType", "PaymentType")
                         .WithMany()
-                        .HasForeignKey("PaymentTypeId")
+                        .HasForeignKey("PaymentTypeId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -1,9 +1,10 @@
-﻿using BP.Core;
+﻿using BP.DataBase.Models;
 
 namespace BP.Application.Interfaces
 {
     public interface IOperationService
     {
-        Task<IEnumerable<Operation>> GetAllUserOperations(long userId);
+        Task<IEnumerable<Operation>> GetAllUserOperationsAsync(long userId);
+        Task<Guid> AddOperationAsync(Operation operation);
     }
 }

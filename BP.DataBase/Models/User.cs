@@ -3,7 +3,7 @@
     /// <summary>
     /// Сущность пользователя
     /// </summary>
-    public class User : BaseEntity<long>
+    public class User : BaseEntity<Guid>
     {
         /// <summary>
         /// Настоящее имя пользователя

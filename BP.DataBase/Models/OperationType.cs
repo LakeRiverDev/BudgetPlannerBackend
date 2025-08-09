@@ -3,7 +3,7 @@
     /// <summary>
     /// Тип операции (расход, приход д/c)
     /// </summary>
-    public class OperationType : BaseEntity<long>
+    public class OperationType : BaseEntity<Guid>
     {
         /// <summary>
         /// Название операции

@@ -1,5 +1,6 @@
 ﻿using BP.DataBase.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BP.DataBase
 {
@@ -11,9 +12,17 @@ namespace BP.DataBase
         public BPlannerDbContext() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {                       
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=bplanner;User Id=postgres;Password=SkyCote36;");            
-        }        
+        {
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=bplanner;User Id=postgres;Password=SkyCote36;");
+            optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
+
+        private ILoggerFactory CreateLoggerFactory() =>
+            LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
 
         public DbSet<User> Users { get; set; }
 
