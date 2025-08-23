@@ -1,42 +1,73 @@
-﻿namespace BP.Core.Operations;
-
-/// <summary>
-/// Описание операции(расход, приход д/c)
-/// </summary>
-public class Operation : BaseEntity<Guid>
+﻿namespace BP.Core.Operations
 {
     /// <summary>
-    /// Сумма операции
+    /// Описание операции(расход, приход д/c)
     /// </summary>
-    public decimal Sum { get; set; }
+    public class Operation : BaseEntity<Guid>
+    {
+        /// <summary>
+        /// Сумма операции
+        /// </summary>
+        public decimal Sum { get; set; }
 
-    /// <summary>
-    /// Причина движения д/с
-    /// </summary>
-    public string Reason { get; set; }
+        /// <summary>
+        /// Причина движения д/с
+        /// </summary>
+        public string Reason { get; set; }
 
-    /// <summary>
-    /// Дата происхождения движения д/с
-    /// </summary>
-    public DateTime DateOperation { get; set; }
+        /// <summary>
+        /// Тип операции(расход, приход д/с)
+        /// </summary>   
+        public int OperationType { get; set; }
 
-    /// <summary>
-    /// Тип операции(расход, приход д/с)
-    /// </summary>   
-    public OperationType OperationType { get; set; }
+        /// <summary>
+        /// Тип платежа(наличные,безналичные)
+        /// </summary>
+        public int PaymentType { get; set; }
 
-    /// <summary>
-    /// Тип платежа
-    /// </summary>
-    public PaymentType? PaymentType { get; set; }
+        /// <summary>
+        /// Категория платежа
+        /// </summary>
+        public int PaymentCategory { get; set; }
 
-    /// <summary>
-    /// Категория операции
-    /// </summary>
-    public PaymentCategory? PaymentCategory { get; set; }
+        /// <summary>
+        /// Для связи с оператором
+        /// </summary>
+        public Guid OperatorId { get; set; }
 
-    /// <summary>
-    /// Для связи с оператором
-    /// </summary>
-    public Guid? OperatorId { get; set; } = Guid.Empty;
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        /// <param name="sum"></param>
+        /// <param name="reason"></param>
+        /// <param name="operationType"></param>
+        /// <param name="paymentType"></param>
+        /// <param name="paymentCategory"></param>
+        /// <param name="operatorId"></param>
+        private Operation(decimal sum, string reason, int operationType, int paymentType, int paymentCategory, Guid operatorId)
+        {
+            Id = Guid.NewGuid();
+            Sum = sum;
+            Reason = reason;
+            OperationType = operationType;
+            PaymentType = paymentType;
+            PaymentCategory = paymentCategory;
+            OperatorId = operatorId;
+        }
+
+        /// <summary>
+        /// Метод создания операции
+        /// </summary>
+        /// <returns></returns>
+        public static Operation Create(decimal sum, string reason, int operationType, int paymentType, int paymentCategory, Guid operatorId)
+        {
+            if (sum == 0)
+            {
+                throw new Exception("Sum does not 0 or null");
+            }
+
+            return new Operation(sum, reason, operationType, paymentType, paymentCategory, operatorId);
+        }
+
+    }
 }

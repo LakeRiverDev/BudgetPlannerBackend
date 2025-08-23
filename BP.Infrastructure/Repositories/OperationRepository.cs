@@ -75,8 +75,7 @@ namespace BP.Infrastructure.Repositories
                     .ExecuteUpdateAsync(o => o
                     .SetProperty(o => o.Sum, o => operation.Sum)
                     .SetProperty(o => o.PaymentType, o => operation.PaymentType)
-                    .SetProperty(o => o.Reason, o => operation.Reason)
-                    .SetProperty(o => o.DateOperation, o => operation.DateOperation));
+                    .SetProperty(o => o.Reason, o => operation.Reason));
 
                 logger.LogInformation("Edit operation");
 

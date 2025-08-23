@@ -1,11 +1,11 @@
 ﻿namespace BP.Core.Operations
 {
     /// <summary>
-    /// Тип платежа
+    /// Тип платежа(наличные,безналичные)
     /// </summary>   
     public enum PaymentType
     {
-        Cash,
-        NonCash
+        Cash = 0,
+        NonCash = 1,
     }
 }

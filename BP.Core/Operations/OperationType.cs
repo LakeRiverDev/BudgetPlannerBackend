@@ -5,7 +5,7 @@
     /// </summary>    
     public enum OperationType
     {
-        Replenishment,
-        Spending
+        Replenishment = 0,
+        Spending = 1,
     }
 }

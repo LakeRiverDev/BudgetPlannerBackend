@@ -29,16 +29,8 @@ namespace BP.Api.Controllers
         [HttpPost("{operatorId}")]
         public async Task<Guid> AddOperation(OperationDto operationDto, Guid operatorId)
         {
-            var newOperation = new Operation
-            {
-                Id = Guid.NewGuid(),
-                DateOperation = DateTime.UtcNow,
-                OperationType = operationDto.OperationType,
-                PaymentType = operationDto.PaymentType,
-                Reason = operationDto.Reason,
-                Sum = operationDto.Sum,
-                OperatorId = operatorId
-            };
+            var newOperation = Operation.Create(operationDto.Sum, operationDto.Reason,
+                operationDto.OperationType, operationDto.PaymentType, operationDto.PaymentCategory, operatorId);
 
             var result = await operationService.AddOperationAsync(newOperation);
 

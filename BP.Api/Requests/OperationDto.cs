@@ -8,12 +8,10 @@ namespace BP.Api.Requests
 
         public string Reason { get; set; }
 
-        public long OperationTypeId { get; set; }
+        public int OperationType { get; set; }        
 
-        public OperationType OperationType { get; set; }
-
-        public long PaymentTypeId { get; set; }
-
-        public PaymentType PaymentType { get; set; }        
+        public int PaymentType { get; set; }       
+        
+        public int PaymentCategory { get; set; }        
     }
 }
