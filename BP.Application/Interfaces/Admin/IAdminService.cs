@@ -1,4 +1,4 @@
-﻿namespace BP.Application.Interfaces
+﻿namespace BP.Application.Interfaces.Admin
 {
     public interface IAdminService
     {

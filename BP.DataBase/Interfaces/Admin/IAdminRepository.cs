@@ -1,4 +1,4 @@
-﻿namespace BP.DataBase.Interfaces
+﻿namespace BP.DataBase.Interfaces.Admin
 {
     public interface IAdminRepository
     {

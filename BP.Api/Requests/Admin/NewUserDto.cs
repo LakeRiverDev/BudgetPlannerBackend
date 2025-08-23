@@ -1,4 +1,4 @@
-﻿namespace BP.Api.Requests
+﻿namespace BP.Api.Requests.Admin
 {
     public class NewUserDto
     {

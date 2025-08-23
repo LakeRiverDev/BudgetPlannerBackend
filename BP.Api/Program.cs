@@ -1,8 +1,12 @@
 using BP.Application.Interfaces;
+using BP.Application.Interfaces.Admin;
 using BP.Application.Services;
+using BP.Application.Services.Admin;
 using BP.DataBase;
 using BP.DataBase.Interfaces;
+using BP.DataBase.Interfaces.Admin;
 using BP.DataBase.Repositories;
+using BP.DataBase.Repositories.Admin;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

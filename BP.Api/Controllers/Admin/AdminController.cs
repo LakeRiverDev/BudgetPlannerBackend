@@ -1,8 +1,8 @@
-﻿using BP.Api.Requests;
-using BP.Application.Interfaces;
+﻿using BP.Api.Requests.Admin;
+using BP.Application.Interfaces.Admin;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BP.Api.Controllers
+namespace BP.Api.Controllers.Admin
 {
     [Route("api/admin/users")]
     [ApiController]

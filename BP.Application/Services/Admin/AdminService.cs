@@ -1,8 +1,8 @@
-﻿using BP.Application.Interfaces;
-using BP.DataBase.Interfaces;
+﻿using BP.Application.Interfaces.Admin;
+using BP.DataBase.Interfaces.Admin;
 using Microsoft.Extensions.Logging;
 
-namespace BP.Application.Services
+namespace BP.Application.Services.Admin
 {
     public class AdminService : IAdminService
     {
