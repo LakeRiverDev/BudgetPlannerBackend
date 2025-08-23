@@ -1,6 +1,4 @@
-﻿using BP.Core;
-
-namespace BP.DataBase.Models
+﻿namespace BP.Core.Users
 {
     /// <summary>
     /// Сущность пользователя

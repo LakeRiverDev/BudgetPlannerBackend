@@ -1,8 +1,9 @@
-﻿using BP.DataBase.Interfaces.Admin;
-using BP.DataBase.Models;
+﻿using BP.Core.Users;
 using Microsoft.Extensions.Logging;
+using BP.Infrastructure.Interfaces.Admin;
+using BP.Infrastructure;
 
-namespace BP.DataBase.Repositories.Admin
+namespace BP.Infrastructure.Repositories.Admin
 {
     public class AdminRepository : IAdminRepository
     {

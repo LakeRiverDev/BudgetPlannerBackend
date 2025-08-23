@@ -1,6 +1,6 @@
 ﻿using BP.Core.Operations;
 
-namespace BP.DataBase.Interfaces
+namespace BP.Infrastructure.Interfaces
 {
     public interface IOperationRepository
     {

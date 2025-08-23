@@ -1,9 +1,9 @@
 ﻿using BP.Core.Operations;
-using BP.DataBase.Models;
+using BP.Core.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace BP.DataBase
+namespace BP.Infrastructure
 {
     public class BPlannerDbContext : DbContext
     {

@@ -1,5 +1,5 @@
 ﻿using BP.Application.Interfaces.Admin;
-using BP.DataBase.Interfaces.Admin;
+using BP.Infrastructure.Interfaces.Admin;
 using Microsoft.Extensions.Logging;
 
 namespace BP.Application.Services.Admin

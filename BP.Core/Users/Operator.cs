@@ -1,7 +1,6 @@
-﻿using BP.Core;
-using BP.Core.Operations;
+﻿using BP.Core.Operations;
 
-namespace BP.DataBase.Models
+namespace BP.Core.Users
 {
     public class Operator : BaseEntity<Guid>
     {

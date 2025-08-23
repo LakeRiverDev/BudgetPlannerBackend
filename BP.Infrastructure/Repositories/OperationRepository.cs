@@ -1,9 +1,10 @@
 ﻿using BP.Core.Operations;
-using BP.DataBase.Interfaces;
+using BP.Infrastructure;
+using BP.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace BP.DataBase.Repositories
+namespace BP.Infrastructure.Repositories
 {
     /// <summary>
     /// Репозиторий для работы с операциями денежных средств
