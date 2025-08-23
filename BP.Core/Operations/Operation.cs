@@ -1,4 +1,4 @@
-﻿namespace BP.DataBase.Models;
+﻿namespace BP.Core.Operations;
 
 /// <summary>
 /// Описание операции(расход, приход д/c)
@@ -22,15 +22,21 @@ public class Operation : BaseEntity<Guid>
 
     /// <summary>
     /// Тип операции(расход, приход д/с)
-    /// </summary>
-    public long OperationTypeId { get; set; }
-
+    /// </summary>   
     public OperationType OperationType { get; set; }
 
     /// <summary>
     /// Тип платежа
     /// </summary>
-    public long PaymentTypeId { get; set; }
+    public PaymentType? PaymentType { get; set; }
 
-    public PaymentType PaymentType { get; set; }
+    /// <summary>
+    /// Категория операции
+    /// </summary>
+    public PaymentCategory? PaymentCategory { get; set; }
+
+    /// <summary>
+    /// Для связи с оператором
+    /// </summary>
+    public Guid? OperatorId { get; set; } = Guid.Empty;
 }

@@ -1,5 +1,5 @@
-﻿using BP.DataBase.Interfaces;
-using BP.DataBase.Models;
+﻿using BP.Core.Operations;
+using BP.DataBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -8,11 +8,11 @@ namespace BP.DataBase.Repositories
     /// <summary>
     /// Репозиторий для работы с операциями денежных средств
     /// </summary>
-    public class OperationsRepository : IOperationsRepository
+    public class OperationRepository : IOperationRepository
     {
-        private readonly ILogger<OperationsRepository> logger;
+        private readonly ILogger<OperationRepository> logger;
         private readonly BPlannerDbContext dbContext;
-        public OperationsRepository(ILogger<OperationsRepository> logger, BPlannerDbContext dbContext)
+        public OperationRepository(ILogger<OperationRepository> logger, BPlannerDbContext dbContext)
         {
             this.logger = logger;
             this.dbContext = dbContext;
@@ -23,11 +23,11 @@ namespace BP.DataBase.Repositories
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Operation>> GetAllOperationByUserIdAsync(long userId)
+        public async Task<IEnumerable<Operation>> GetAllOperationsByUserIdAsync(Guid operatorId)
         {
             try
             {
-                var operations = await dbContext.Operations.ToListAsync();                
+                var operations = dbContext.Operations.Where(o => o.OperatorId == operatorId);
 
                 logger.LogInformation("Repository OK");
 
@@ -46,7 +46,7 @@ namespace BP.DataBase.Repositories
         /// <param name="operation"></param>
         /// <returns></returns>
         public async Task AddOperationAsync(Operation operation)
-        {            
+        {
             try
             {
                 await dbContext.Operations.AddAsync(operation);
@@ -74,7 +74,7 @@ namespace BP.DataBase.Repositories
                 .Where(o => o.Id == operation.Id)
                 .ExecuteUpdateAsync(o => o
                 .SetProperty(o => o.Sum, o => operation.Sum)
-                .SetProperty(o => o.PaymentTypeId, o => operation.PaymentTypeId)
+                .SetProperty(o => o.PaymentType, o => operation.PaymentType)
                 .SetProperty(o => o.Reason, o => operation.Reason)
                 .SetProperty(o => o.DateOperation, o => operation.DateOperation));
 

@@ -1,6 +1,6 @@
 ﻿namespace BP.DataBase.Interfaces
 {
-    public interface IUsersRepository
+    public interface IUserRepository
     {
     }
 }

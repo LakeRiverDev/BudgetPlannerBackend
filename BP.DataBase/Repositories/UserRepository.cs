@@ -2,7 +2,7 @@
 
 namespace BP.DataBase.Repositories
 {
-    public class UsersRepository : IUsersRepository
+    public class UserRepository : IUserRepository
     {
     }
 }

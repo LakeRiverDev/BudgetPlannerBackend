@@ -22,32 +22,29 @@ namespace BP.DataBase.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BP.DataBase.Models.Operation", b =>
+            modelBuilder.Entity("BP.Core.Operations.Operation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("DateOperation")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<long>("OperationTypeId")
-                        .HasColumnType("bigint");
-
-                    b.Property<Guid>("OperationTypeId1")
-                        .HasColumnType("uuid");
+                    b.Property<int>("OperationType")
+                        .HasColumnType("integer");
 
                     b.Property<Guid?>("OperatorId")
                         .HasColumnType("uuid");
 
-                    b.Property<long>("PaymentTypeId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("PaymentCategory")
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("PaymentTypeId1")
-                        .HasColumnType("uuid");
+                    b.Property<int?>("PaymentType")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Reason")
                         .IsRequired()
@@ -57,38 +54,13 @@ namespace BP.DataBase.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OperationTypeId1");
 
                     b.HasIndex("OperatorId");
 
-                    b.HasIndex("PaymentTypeId1");
-
                     b.ToTable("Operations");
-                });
-
-            modelBuilder.Entity("BP.DataBase.Models.OperationType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OperationTypes");
                 });
 
             modelBuilder.Entity("BP.DataBase.Models.Operator", b =>
@@ -98,38 +70,17 @@ namespace BP.DataBase.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.ToTable("Operators");
-                });
-
-            modelBuilder.Entity("BP.DataBase.Models.PaymentType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PaymentTypes");
                 });
 
             modelBuilder.Entity("BP.DataBase.Models.User", b =>
@@ -139,7 +90,7 @@ namespace BP.DataBase.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -153,42 +104,26 @@ namespace BP.DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("OperatorId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("OperatorId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BP.DataBase.Models.Operation", b =>
+            modelBuilder.Entity("BP.Core.Operations.Operation", b =>
                 {
-                    b.HasOne("BP.DataBase.Models.OperationType", "OperationType")
-                        .WithMany()
-                        .HasForeignKey("OperationTypeId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BP.DataBase.Models.Operator", null)
                         .WithMany("Operations")
                         .HasForeignKey("OperatorId");
-
-                    b.HasOne("BP.DataBase.Models.PaymentType", "PaymentType")
-                        .WithMany()
-                        .HasForeignKey("PaymentTypeId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OperationType");
-
-                    b.Navigation("PaymentType");
                 });
 
             modelBuilder.Entity("BP.DataBase.Models.Operator", b =>

@@ -1,6 +1,6 @@
 ﻿using BP.Application.Interfaces;
+using BP.Core.Operations;
 using BP.DataBase.Interfaces;
-using BP.DataBase.Models;
 using Microsoft.Extensions.Logging;
 
 namespace BP.Application.Services
@@ -8,9 +8,9 @@ namespace BP.Application.Services
     public class OperationService : IOperationService
     {
         private readonly ILogger<OperationService> logger;
-        private readonly IOperationsRepository operationsRepository;
+        private readonly IOperationRepository operationsRepository;
 
-        public OperationService(ILogger<OperationService> logger, IOperationsRepository operationsRepository)
+        public OperationService(ILogger<OperationService> logger, IOperationRepository operationsRepository)
         {
             this.logger = logger;
             this.operationsRepository = operationsRepository;
@@ -21,11 +21,11 @@ namespace BP.Application.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Operation>> GetAllUserOperationsAsync(long userId)
+        public async Task<IEnumerable<Operation>> GetAllUserOperationsAsync(Guid operatorId)
         {
             try
             {
-                var operations = await operationsRepository.GetAllOperationByUserIdAsync(userId);
+                var operations = await operationsRepository.GetAllOperationsByUserIdAsync(operatorId);
 
                 return operations;
             }

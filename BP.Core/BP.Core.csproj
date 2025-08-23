@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BP.DataBase\BP.DataBase.csproj" />
-  </ItemGroup>
-
 </Project>

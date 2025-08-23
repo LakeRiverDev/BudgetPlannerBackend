@@ -1,4 +1,5 @@
-﻿using BP.DataBase.Models;
+﻿using BP.Core.Operations;
+using BP.DataBase.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -25,13 +26,7 @@ namespace BP.DataBase
             });
 
         public DbSet<User> Users { get; set; }
-
         public DbSet<Operator> Operators { get; set; }
-
-        public DbSet<PaymentType> PaymentTypes { get; set; }
-
-        public DbSet<OperationType> OperationTypes { get; set; }
-
         public DbSet<Operation> Operations { get; set; }
     }
 }

@@ -1,0 +1,25 @@
+﻿using BP.Application.Interfaces;
+using BP.DataBase.Interfaces;
+using Microsoft.Extensions.Logging;
+
+namespace BP.Application.Services
+{
+    public class AdminService : IAdminService
+    {
+        private readonly ILogger<AdminService> logger;
+        private readonly IAdminRepository adminRepository;
+
+        public AdminService(ILogger<AdminService> logger, IAdminRepository adminRepository)
+        {
+            this.logger = logger;
+            this.adminRepository = adminRepository;
+        }
+
+        public async Task<Guid> AddUser(string login, string password, string email)
+        {
+            var newUserId = await adminRepository.AddUser(login, password, email);
+
+            return newUserId;
+        }
+    }
+}

@@ -1,4 +1,6 @@
-﻿namespace BP.DataBase.Models
+﻿using BP.Core;
+
+namespace BP.DataBase.Models
 {
     /// <summary>
     /// Сущность пользователя
@@ -28,6 +30,6 @@
         /// <summary>
         /// Для связи с оператором в приложении
         /// </summary>
-        public long OperatorId { get; set; }
+        public Guid OperatorId { get; set; }
     }
 }

@@ -12,7 +12,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IOperationService, OperationService>();
-builder.Services.AddScoped<IOperationsRepository, OperationsRepository>();
+builder.Services.AddScoped<IOperationRepository, OperationRepository>();
+
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 
 var connectionString = builder.Configuration.GetSection("ConnectionString");
 builder.Services.AddDbContext<BPlannerDbContext>(

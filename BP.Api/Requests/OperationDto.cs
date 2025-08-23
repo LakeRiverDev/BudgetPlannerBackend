@@ -1,4 +1,4 @@
-﻿using BP.DataBase.Models;
+﻿using BP.Core.Operations;
 
 namespace BP.Api.Requests
 {
@@ -14,6 +14,6 @@ namespace BP.Api.Requests
 
         public long PaymentTypeId { get; set; }
 
-        public PaymentType PaymentType { get; set; }
+        public PaymentType PaymentType { get; set; }        
     }
 }
