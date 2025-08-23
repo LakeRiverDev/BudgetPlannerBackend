@@ -1,5 +1,4 @@
 ﻿using BP.Core.Operations;
-using BP.Infrastructure;
 using BP.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -24,7 +23,7 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="operatorId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Operation>> GetAllOperationsByUserIdAsync(Guid operatorId)
+        public IEnumerable<Operation> GetAllOperationsByOperatorIdAsync(Guid operatorId)
         {
             try
             {
@@ -72,12 +71,12 @@ namespace BP.Infrastructure.Repositories
             try
             {
                 await dbContext.Operations
-                .Where(o => o.Id == operation.Id)
-                .ExecuteUpdateAsync(o => o
-                .SetProperty(o => o.Sum, o => operation.Sum)
-                .SetProperty(o => o.PaymentType, o => operation.PaymentType)
-                .SetProperty(o => o.Reason, o => operation.Reason)
-                .SetProperty(o => o.DateOperation, o => operation.DateOperation));
+                    .Where(o => o.Id == operation.Id)
+                    .ExecuteUpdateAsync(o => o
+                    .SetProperty(o => o.Sum, o => operation.Sum)
+                    .SetProperty(o => o.PaymentType, o => operation.PaymentType)
+                    .SetProperty(o => o.Reason, o => operation.Reason)
+                    .SetProperty(o => o.DateOperation, o => operation.DateOperation));
 
                 logger.LogInformation("Edit operation");
 
@@ -100,8 +99,8 @@ namespace BP.Infrastructure.Repositories
             try
             {
                 await dbContext.Operations
-               .Where(o => o.Id == operationId)
-               .ExecuteDeleteAsync();
+                    .Where(o => o.Id == operationId)
+                .ExecuteDeleteAsync();
 
                 logger.LogInformation("Delete operation");
 

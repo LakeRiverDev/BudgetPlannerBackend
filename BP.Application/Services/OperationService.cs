@@ -21,11 +21,11 @@ namespace BP.Application.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Operation>> GetAllOperationsByUserIdAsync(Guid operatorId)
+        public IEnumerable<Operation> GetAllOperationsByOperatorIdAsync(Guid operatorId)
         {
             try
             {
-                var operations = await operationsRepository.GetAllOperationsByUserIdAsync(operatorId);
+                var operations = operationsRepository.GetAllOperationsByOperatorIdAsync(operatorId);
 
                 return operations;
             }
@@ -46,6 +46,18 @@ namespace BP.Application.Services
             await operationsRepository.AddOperationAsync(operation);
 
             return operation.Id;
-        }        
+        }
+
+        /// <summary>
+        /// Удалить операцию в бд
+        /// </summary>
+        /// <param name="operationId"></param>
+        /// <returns></returns>
+        public async Task<Guid> DeleteOperationAsync(Guid operationId)
+        {
+            var deleteOperation = await operationsRepository.DeleteOperationAsync(operationId);
+
+            return deleteOperation;
+        }
     }
 }

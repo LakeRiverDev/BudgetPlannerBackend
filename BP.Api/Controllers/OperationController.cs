@@ -18,15 +18,15 @@ namespace BP.Api.Controllers
             this.operationService = operationService;
         }
 
-        [HttpGet("payments/{operatorId}")]
-        public async Task<IEnumerable<Operation>> GetOperations(Guid operatorId)
+        [HttpGet("{operatorId}")]
+        public IEnumerable<Operation> GetOperations(Guid operatorId)
         {
-            var result = await operationService.GetAllOperationsByUserIdAsync(operatorId);
+            var result = operationService.GetAllOperationsByOperatorIdAsync(operatorId);
 
             return result;
         }
 
-        [HttpPost("payments/{operatorId}")]
+        [HttpPost("{operatorId}")]
         public async Task<Guid> AddOperation(OperationDto operationDto, Guid operatorId)
         {
             var newOperation = new Operation
@@ -43,6 +43,17 @@ namespace BP.Api.Controllers
             var result = await operationService.AddOperationAsync(newOperation);
 
             return result;
+        }
+
+        [HttpPost("{operationId}/edit")]
+        public async Task EditOperation(EditOperationDto editOperationDto) { }
+
+        [HttpDelete("{operationId}/delete")]
+        public async Task<Guid> DeleteOperation(Guid operationId)
+        {
+            var deleteOperation = await operationService.DeleteOperationAsync(operationId);
+
+            return deleteOperation;
         }
     }
 }

@@ -4,7 +4,8 @@ namespace BP.Application.Interfaces
 {
     public interface IOperationService
     {
-        Task<IEnumerable<Operation>> GetAllOperationsByUserIdAsync(Guid userId);
+        IEnumerable<Operation> GetAllOperationsByOperatorIdAsync(Guid operatorId);
         Task<Guid> AddOperationAsync(Operation operation);
+        Task<Guid> DeleteOperationAsync(Guid operationId);
     }
 }
