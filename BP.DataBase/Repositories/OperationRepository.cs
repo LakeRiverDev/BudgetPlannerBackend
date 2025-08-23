@@ -21,7 +21,7 @@ namespace BP.DataBase.Repositories
         /// <summary>
         /// Получить все операции пользователя
         /// </summary>
-        /// <param name="userID"></param>
+        /// <param name="operatorId"></param>
         /// <returns></returns>
         public async Task<IEnumerable<Operation>> GetAllOperationsByUserIdAsync(Guid operatorId)
         {
@@ -29,7 +29,7 @@ namespace BP.DataBase.Repositories
             {
                 var operations = dbContext.Operations.Where(o => o.OperatorId == operatorId);
 
-                logger.LogInformation("Repository OK");
+                logger.LogInformation("Getting all operation on operatorId");
 
                 return operations;
             }
@@ -52,7 +52,7 @@ namespace BP.DataBase.Repositories
                 await dbContext.Operations.AddAsync(operation);
                 await dbContext.SaveChangesAsync();
 
-                logger.LogInformation("Repository OK");
+                logger.LogInformation("Add operation");
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace BP.DataBase.Repositories
                 .SetProperty(o => o.Reason, o => operation.Reason)
                 .SetProperty(o => o.DateOperation, o => operation.DateOperation));
 
-                logger.LogInformation("Repository OK");
+                logger.LogInformation("Edit operation");
 
                 return operation.Id;
             }
@@ -102,7 +102,7 @@ namespace BP.DataBase.Repositories
                .Where(o => o.Id == operationId)
                .ExecuteDeleteAsync();
 
-                logger.LogInformation("Repository OK");
+                logger.LogInformation("Delete operation");
 
                 return operationId;
             }

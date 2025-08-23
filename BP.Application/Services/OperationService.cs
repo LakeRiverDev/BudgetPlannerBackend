@@ -21,7 +21,7 @@ namespace BP.Application.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<Operation>> GetAllUserOperationsAsync(Guid operatorId)
+        public async Task<IEnumerable<Operation>> GetAllOperationsByUserIdAsync(Guid operatorId)
         {
             try
             {

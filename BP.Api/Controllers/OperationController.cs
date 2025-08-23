@@ -21,7 +21,7 @@ namespace BP.Api.Controllers
         [HttpGet("payments/{operatorId}")]
         public async Task<IEnumerable<Operation>> GetOperations(Guid operatorId)
         {
-            var result = await operationService.GetAllUserOperationsAsync(operatorId);
+            var result = await operationService.GetAllOperationsByUserIdAsync(operatorId);
 
             return result;
         }
