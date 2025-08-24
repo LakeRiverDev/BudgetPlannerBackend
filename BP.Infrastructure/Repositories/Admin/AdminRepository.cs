@@ -19,11 +19,13 @@ namespace BP.Infrastructure.Repositories.Admin
         {
             var newUser = new User(login, password, email);
             var newOperator = new Operator(newUser.Id, name);
+            var newAccount = new Account(newOperator.Id);
 
             newUser.OperatorId = newOperator.Id;
 
             await context.Users.AddAsync(newUser);
             await context.Operators.AddAsync(newOperator);
+            await context.Accounts.AddAsync(newAccount);
 
             await context.SaveChangesAsync();
 

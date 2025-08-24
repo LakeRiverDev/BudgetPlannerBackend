@@ -1,5 +1,6 @@
 ﻿using BP.Api.Requests.Admin;
 using BP.Application.Interfaces.Admin;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BP.Api.Controllers.Admin
@@ -18,6 +19,7 @@ namespace BP.Api.Controllers.Admin
         }
 
         [HttpPost("add")]
+        [Authorize]
         public async Task<IActionResult> AddUser(NewUserDto newUserDto)
         {
             var newUser = await adminService.AddUser(newUserDto.Login, newUserDto.Password, newUserDto.Email, newUserDto.Name);

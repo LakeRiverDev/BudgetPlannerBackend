@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BP.Api.Controllers
 {
-    [Route("api/v1/operations")]
+    [Route("api/v1/operation")]
     [ApiController]
     public class OperationController : ControllerBase
     {

@@ -47,7 +47,7 @@
         /// </summary>
         public User()
         {
-            
+
         }
     }
 }

@@ -2,10 +2,8 @@
 {
     public interface IUserService
     {
-        Task Login(string login, string password);
-
+        Task<string> Login(string login, string password);
         Task Logout(string login);
-
-        Task Registration(string login, string password);
+        Task<Guid> Registration(string login, string password, string email, string name);
     }
 }

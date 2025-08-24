@@ -10,7 +10,7 @@ namespace BP.Core.Users
         /// <summary>
         /// Для связи с пользователем
         /// </summary>
-        public Guid UserId {  get; set; }
+        public Guid UserId { get; set; }
 
         /// <summary>
         /// Настоящее имя пользователя
@@ -25,7 +25,7 @@ namespace BP.Core.Users
         /// <summary>
         /// Для связи со счетом
         /// </summary>
-        public Guid AccountId { get; set; }
+        public Guid AccountId { get; set; } = Guid.Empty;
 
         /// <summary>
         /// Конструктор

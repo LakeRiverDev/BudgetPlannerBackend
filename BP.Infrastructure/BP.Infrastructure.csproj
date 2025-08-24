@@ -24,8 +24,4 @@
     <ProjectReference Include="..\BP.Core\BP.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configurations\" />
-  </ItemGroup>
-
 </Project>

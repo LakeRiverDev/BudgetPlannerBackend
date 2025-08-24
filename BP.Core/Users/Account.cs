@@ -18,9 +18,10 @@
         /// <summary>
         /// Конструктор
         /// </summary>
-        public Account()
+        public Account(Guid operatorId)
         {
             Id = Guid.NewGuid();
+            OperatorId = operatorId;
         }
     }
 }
