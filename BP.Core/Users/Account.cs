@@ -33,5 +33,23 @@
         {
             return new Account(operatorId);
         }
+
+        /// <summary>
+        /// Добавить денег на баланс
+        /// </summary>
+        /// <param name="sum"></param>
+        public void AddToBalance(decimal sum)
+        {
+            Balance += sum;
+        }
+
+        /// <summary>
+        /// Уменьшить баланс 
+        /// </summary>
+        /// <param name="sum"></param>
+        public void PutToBalance(decimal sum)
+        {
+            Balance -= sum;
+        }
     }
 }

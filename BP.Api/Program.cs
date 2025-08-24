@@ -35,6 +35,9 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
 var connectionString = builder.Configuration.GetSection("ConnectionString");
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 

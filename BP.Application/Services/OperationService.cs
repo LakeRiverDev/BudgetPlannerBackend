@@ -9,11 +9,13 @@ namespace BP.Application.Services
     {
         private readonly ILogger<OperationService> logger;
         private readonly IOperationRepository operationsRepository;
+        private readonly IAccountRepository accountRepository;
 
-        public OperationService(ILogger<OperationService> logger, IOperationRepository operationsRepository)
+        public OperationService(ILogger<OperationService> logger, IOperationRepository operationsRepository, IAccountRepository accountRepository)
         {
             this.logger = logger;
             this.operationsRepository = operationsRepository;
+            this.accountRepository = accountRepository;
         }
 
         /// <summary>
@@ -45,6 +47,16 @@ namespace BP.Application.Services
         {
             await operationsRepository.AddOperationAsync(operation);
 
+            if (operation.OperationType == (int)OperationType.Spending)
+            {
+                await accountRepository.PutToBalance(operation.Id, operation.Sum);
+            }
+
+            if (operation.OperationType == (int)OperationType.Replenishment)
+            {
+                await accountRepository.AddToBalance(operation.Id, operation.Sum);
+            }
+
             return operation.Id;
         }
 
@@ -55,6 +67,17 @@ namespace BP.Application.Services
         public async Task<Guid> EditOperationAsync(decimal sum, string reason, Guid operationId)
         {
             var editOperation = await operationsRepository.EditOperationAsync(sum, reason, operationId);
+            var searchEditingOperation = await operationsRepository.GetOperation(editOperation);
+
+            if (searchEditingOperation.OperationType == (int)OperationType.Spending)
+            {
+                await accountRepository.PutToBalance(searchEditingOperation.Id, sum);
+            }
+
+            if (searchEditingOperation.OperationType == (int)OperationType.Replenishment)
+            {
+                await accountRepository.AddToBalance(searchEditingOperation.Id, sum);
+            }
 
             return editOperation;
         }
@@ -66,6 +89,18 @@ namespace BP.Application.Services
         /// <returns></returns>
         public async Task<Guid> DeleteOperationAsync(Guid operationId)
         {
+            var searchEditingOperation = await operationsRepository.GetOperation(operationId);
+
+            if (searchEditingOperation.OperationType == (int)OperationType.Spending)
+            {
+                await accountRepository.PutToBalance(searchEditingOperation.Id, searchEditingOperation.Sum);
+            }
+
+            if (searchEditingOperation.OperationType == (int)OperationType.Replenishment)
+            {
+                await accountRepository.AddToBalance(searchEditingOperation.Id, searchEditingOperation.Sum);
+            }
+
             var deleteOperation = await operationsRepository.DeleteOperationAsync(operationId);
 
             return deleteOperation;
