@@ -49,6 +49,17 @@ namespace BP.Application.Services
         }
 
         /// <summary>
+        /// Изменить операцию
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Guid> EditOperationAsync(decimal sum, string reason, Guid operationId)
+        {
+            var editOperation = await operationsRepository.EditOperationAsync(sum, reason, operationId);
+
+            return editOperation;
+        }
+
+        /// <summary>
         /// Удалить операцию в бд
         /// </summary>
         /// <param name="operationId"></param>

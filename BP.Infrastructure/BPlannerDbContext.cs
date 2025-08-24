@@ -14,7 +14,6 @@ namespace BP.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=bplanner;User Id=postgres;Password=SkyCote36;");
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }

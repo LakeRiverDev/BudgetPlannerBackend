@@ -66,20 +66,20 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="operation"></param>
         /// <returns></returns>
-        public async Task<Guid> EditOperationAsync(Operation operation)
+        public async Task<Guid> EditOperationAsync(decimal sum, string reason, Guid operationId)
         {
             try
             {
                 await dbContext.Operations
-                    .Where(o => o.Id == operation.Id)
+                    .Where(o => o.Id == operationId)
                     .ExecuteUpdateAsync(o => o
-                    .SetProperty(o => o.Sum, o => operation.Sum)
-                    .SetProperty(o => o.PaymentType, o => operation.PaymentType)
-                    .SetProperty(o => o.Reason, o => operation.Reason));
+                    .SetProperty(o => o.Sum, o => sum)
+                    //.SetProperty(o => o.PaymentType, o => operation.PaymentType)
+                    .SetProperty(o => o.Reason, o => reason));
 
                 logger.LogInformation("Edit operation");
 
-                return operation.Id;
+                return operationId;
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using BP.Api.Requests;
 using BP.Application.Interfaces;
 using BP.Core.Operations;
+using BP.Core.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BP.Api.Controllers
@@ -38,7 +39,12 @@ namespace BP.Api.Controllers
         }
 
         [HttpPost("{operationId}/edit")]
-        public async Task EditOperation(EditOperationDto editOperationDto) { }
+        public async Task<Guid> EditOperation(EditOperationDto editOperationDto, Guid operationId)
+        {           
+            var editOperation = await operationService.EditOperationAsync(editOperationDto.Sum, editOperationDto.Reason, operationId);
+
+            return editOperation;
+        }
 
         [HttpDelete("{operationId}/delete")]
         public async Task<Guid> DeleteOperation(Guid operationId)
