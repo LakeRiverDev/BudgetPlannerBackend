@@ -27,5 +27,6 @@ namespace BP.Infrastructure
         public DbSet<User> Users { get; set; }
         public DbSet<Operator> Operators { get; set; }
         public DbSet<Operation> Operations { get; set; }
+        public DbSet<Account> Accounts { get; set; }
     }
 }
