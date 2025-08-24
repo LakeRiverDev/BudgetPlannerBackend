@@ -21,12 +21,17 @@
         public int OperationType { get; set; }
 
         /// <summary>
+        /// Тип пополнения(зарплата, отпускные, долг, и т.д)
+        /// </summary>
+        public int ReplenishmentType { get; set; }
+
+        /// <summary>
         /// Тип платежа(наличные,безналичные)
         /// </summary>
         public int PaymentType { get; set; }
 
         /// <summary>
-        /// Категория платежа
+        /// Категория платежа(куда потрачены средства)
         /// </summary>
         public int PaymentCategory { get; set; }
 

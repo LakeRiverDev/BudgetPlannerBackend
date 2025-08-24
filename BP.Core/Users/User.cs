@@ -29,5 +29,10 @@
         /// Для связи с оператором в приложении
         /// </summary>
         public Guid OperatorId { get; set; }
+
+        /// <summary>
+        /// Для управления учетными записями
+        /// </summary>
+        public bool IsActive { get; set; } = true;
     }
 }
