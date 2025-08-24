@@ -1,6 +1,6 @@
 ﻿using BP.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace BP.Api.Controllers
 {
@@ -9,6 +9,7 @@ namespace BP.Api.Controllers
     /// </summary>
     [Route("api/v1/account")]
     [ApiController]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         private readonly ILogger<AccountController> logger;

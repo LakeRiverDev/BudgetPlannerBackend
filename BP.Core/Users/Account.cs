@@ -16,6 +16,21 @@
         public decimal Balance { get; private set; } = 0;
 
         /// <summary>
+        /// Лимит на день
+        /// </summary>
+        public decimal DailyLimit { get; private set; } = 0;
+
+        /// <summary>
+        /// Лимит на месяц
+        /// </summary>
+        public decimal MonthlyLimit { get; private set; } = 0;
+
+        /// <summary>
+        /// Средний чек
+        /// </summary>
+        public decimal AverageReceipt { get; private set; } = 0;
+
+        /// <summary>
         /// Конструктор
         /// </summary>
         private Account(Guid operatorId)
@@ -50,6 +65,24 @@
         public void PutToBalance(decimal sum)
         {
             Balance -= sum;
+        }
+
+        /// <summary>
+        /// Метод установки дневного лимита
+        /// </summary>
+        /// <param name="limit"></param>
+        public void SetDailyLimit(decimal limit)
+        {
+            DailyLimit = limit;
+        }
+
+        /// <summary>
+        /// Метод установки месячного лимита
+        /// </summary>
+        /// <param name="limit"></param>
+        public void SetMonthlyLimit(decimal limit)
+        {
+            MonthlyLimit = limit;
         }
     }
 }
