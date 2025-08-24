@@ -28,7 +28,7 @@ namespace BP.Application
             {
                 logger.LogInformation("Generate token...");
 
-                Claim[] claims = [new("userid", user.Id.ToString())];
+                Claim[] claims = [new("operatorId", user.OperatorId.ToString())];
 
                 var signingCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Value.KEY)),
@@ -42,6 +42,8 @@ namespace BP.Application
                     audience: options.Value.AUDIENCE);
 
                 var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
+
+                logger.LogInformation("Token generated");
 
                 return tokenValue;
             }

@@ -30,8 +30,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var connectionString = builder.Configuration.GetSection("ConnectionString");
-var jwtOptions = builder.Configuration.GetSection("JwtOptions").Get<JwtOptions>();
-
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 
 builder.Services.AddScoped<PasswordHasher>();
@@ -53,11 +51,11 @@ builder.Services.AddAuthentication(
         options.TokenValidationParameters = new()
         {
             ValidateIssuer = true,
-            ValidIssuer = jwtOptions.ISSUER,
+            ValidIssuer = builder.Configuration["JwtOptions:Issuer"],
             ValidateAudience = true,
-            ValidAudience = jwtOptions.AUDIENCE,
+            ValidAudience = builder.Configuration["JwtOptions:Audience"],
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.KEY)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtOptions:Key"])),
             ValidateLifetime = true
         };
 

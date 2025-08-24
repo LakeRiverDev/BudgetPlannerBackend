@@ -1,6 +1,7 @@
 ﻿using BP.Api.Requests;
 using BP.Application.Interfaces;
 using BP.Core.Operations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BP.Api.Controllers

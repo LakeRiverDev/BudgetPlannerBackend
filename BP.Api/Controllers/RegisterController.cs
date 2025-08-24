@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BP.Api.Controllers
 {
     [Route("api/v1/auth")]
-    [ApiController]
+    [ApiController]    
     public class RegisterController : ControllerBase
     {
         private readonly ILogger<RegisterController> logger;
