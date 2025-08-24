@@ -41,6 +41,16 @@ namespace BP.Infrastructure.Repositories
         }
 
         /// <summary>
+        /// Получить одну операцию
+        /// </summary>
+        /// <param name="operationId"></param>
+        /// <returns></returns>
+        public async Task<Operation> GetOperation(Guid operationId)
+        {
+            return await dbContext.Operations.Where(o => o.Id == operationId).FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// Добавить операцию в бд
         /// </summary>
         /// <param name="operation"></param>
@@ -48,7 +58,7 @@ namespace BP.Infrastructure.Repositories
         public async Task AddOperationAsync(Operation operation)
         {
             try
-            {                
+            {
                 await dbContext.Operations.AddAsync(operation);
                 await dbContext.SaveChangesAsync();
 

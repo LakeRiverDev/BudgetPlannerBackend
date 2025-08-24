@@ -7,35 +7,45 @@ namespace BP.Infrastructure.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ILogger<UserRepository> logger;
-        private readonly BPlannerDbContext context;
+        private readonly BPlannerDbContext dbContext;
 
         public UserRepository(ILogger<UserRepository> logger, BPlannerDbContext dbContext)
         {
             this.logger = logger;
-            this.context = dbContext;
+            this.dbContext = dbContext;
         }
 
         public async Task<Guid> Registration(User newUser, Operator newOperator, Account newAccount)
         {
-            await context.Users.AddAsync(newUser);
-            await context.Operators.AddAsync(newOperator);
-            await context.Accounts.AddAsync(newAccount);
+            await dbContext.Users.AddAsync(newUser);
+            await dbContext.Operators.AddAsync(newOperator);
+            await dbContext.Accounts.AddAsync(newAccount);
 
-            await context.SaveChangesAsync();
+            await dbContext.SaveChangesAsync();
 
             return newUser.Id;
         }
 
+        /// <summary>
+        /// Поиск пользователя по почте
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         public async Task<User> SearchUserByLogin(string login)
         {
-            var user = context.Users.Where(u => u.Login == login).FirstOrDefault();
+            var user = dbContext.Users.Where(u => u.Login == login).FirstOrDefault();
 
             return user;
         }
 
+        /// <summary>
+        /// Найти пользователя по почте
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public bool UniqueEmail(string email)
         {
-            var searchEmail = context.Users.Where(x => x.Email == email).FirstOrDefault();
+            var searchEmail = dbContext.Users.Where(x => x.Email == email).FirstOrDefault();
 
             if (searchEmail == null)
             {
@@ -45,9 +55,14 @@ namespace BP.Infrastructure.Repositories
             return false;
         }
 
+        /// <summary>
+        /// Найти пользователя по логину
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         public bool UniqueLogin(string login)
         {
-            var searchEmail = context.Users.Where(x => x.Login == login).FirstOrDefault();
+            var searchEmail = dbContext.Users.Where(x => x.Login == login).FirstOrDefault();
 
             if (searchEmail == null)
             {
