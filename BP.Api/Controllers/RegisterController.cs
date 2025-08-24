@@ -9,7 +9,7 @@ namespace BP.Api.Controllers
     public class RegisterController : ControllerBase
     {
         private readonly ILogger<RegisterController> logger;
-        private readonly IUserService userService;
+        private readonly IUserService userService;       
 
         public RegisterController(ILogger<RegisterController> logger, IUserService userService)
         {
@@ -19,7 +19,7 @@ namespace BP.Api.Controllers
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegistrationDto registrationDto)
-        {
+        {           
             var register = await userService.Registration(registrationDto.Login, registrationDto.Password, registrationDto.Email, registrationDto.Name);
 
             return Ok("User registered");
