@@ -1,4 +1,5 @@
 ﻿using BP.Application.Interfaces;
+using BP.Core.Users;
 using BP.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -48,6 +49,10 @@ namespace BP.Application.Services
 
         public async Task<Guid> Registration(string login, string password, string email, string name)
         {
+            var newUser = User.Create(login, password, email);
+            var newOperator = Operator.Create(newUser.Id, name);
+            var newAccount = Account.Create(newOperator.Id);
+
             var passwordHashed = passwordHasher.Hash(password);
 
             var registrationUser = await userRepository.Registration(login, passwordHashed, email, name);

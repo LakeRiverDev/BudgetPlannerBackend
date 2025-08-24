@@ -15,12 +15,8 @@ namespace BP.Infrastructure.Repositories
             this.context = dbContext;
         }
 
-        public async Task<Guid> Registration(string login, string password, string email, string name)
-        {           
-            var newUser = new User(login, password, email);
-            var newOperator = new Operator(newUser.Id, name);
-            var newAccount = new Account(newOperator.Id);
-
+        public async Task<Guid> Registration(User newUser, Operator newOperator, Account newAccount)
+        {            
             await context.Users.AddAsync(newUser);
             await context.Operators.AddAsync(newOperator);
             await context.Accounts.AddAsync(newAccount);

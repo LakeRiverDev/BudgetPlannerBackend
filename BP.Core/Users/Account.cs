@@ -8,20 +8,30 @@
         /// <summary>
         /// Для связи с другой таблицей
         /// </summary>
-        public Guid OperatorId { get; set; }
+        public Guid OperatorId { get; private set; }
 
         /// <summary>
         /// Поле баланса
         /// </summary>
-        public decimal Balance { get; set; } = 0;
+        public decimal Balance { get; private set; } = 0;
 
         /// <summary>
         /// Конструктор
         /// </summary>
-        public Account(Guid operatorId)
+        private Account(Guid operatorId)
         {
             Id = Guid.NewGuid();
             OperatorId = operatorId;
+        }
+
+        /// <summary>
+        /// Метод создания аккаунта(счета)
+        /// </summary>
+        /// <param name="operatorId"></param>
+        /// <returns></returns>
+        public static Account Create(Guid operatorId)
+        {
+            return new Account(operatorId);
         }
     }
 }

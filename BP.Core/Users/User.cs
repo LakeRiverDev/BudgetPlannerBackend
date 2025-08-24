@@ -33,7 +33,7 @@
         /// <summary>
         /// Конструктор
         /// </summary>
-        public User(string login, string password, string email)
+        private User(string login, string password, string email)
         {
             Id = Guid.NewGuid();
             Login = login;
@@ -43,11 +43,20 @@
         }
 
         /// <summary>
+        /// Метод создания пользователя
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public static User Create(string login, string password, string email)
+        {
+            return new User(login, password, email);
+        }
+
+        /// <summary>
         /// Для ef core
         /// </summary>
-        public User()
-        {
-
-        }
+        public User() { }
     }
 }

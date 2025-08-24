@@ -17,9 +17,9 @@ namespace BP.Infrastructure.Repositories.Admin
 
         public async Task<Guid> AddUser(string login, string password, string email, string name)
         {
-            var newUser = new User(login, password, email);
-            var newOperator = new Operator(newUser.Id, name);
-            var newAccount = new Account(newOperator.Id);
+            var newUser = User.Create(login, password, email);
+            var newOperator = Operator.Create(newUser.Id, name);
+            var newAccount = Account.Create(newOperator.Id);
 
             newUser.OperatorId = newOperator.Id;
 

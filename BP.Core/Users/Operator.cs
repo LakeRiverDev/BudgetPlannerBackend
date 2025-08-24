@@ -30,11 +30,22 @@ namespace BP.Core.Users
         /// <summary>
         /// Конструктор
         /// </summary>
-        public Operator(Guid userId, string name)
+        private Operator(Guid userId, string name)
         {
             Id = Guid.NewGuid();
             UserId = userId;
             Name = name;
+        }
+
+        /// <summary>
+        /// Метод создания оператора
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static Operator Create(Guid userId, string name)
+        {
+            return new Operator(userId, name);
         }
     }
 }
