@@ -48,7 +48,7 @@ namespace BP.Infrastructure.Repositories
         public async Task AddOperationAsync(Operation operation)
         {
             try
-            {
+            {                
                 await dbContext.Operations.AddAsync(operation);
                 await dbContext.SaveChangesAsync();
 

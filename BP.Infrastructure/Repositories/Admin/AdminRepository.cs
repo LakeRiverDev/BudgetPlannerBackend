@@ -1,7 +1,6 @@
 ﻿using BP.Core.Users;
-using Microsoft.Extensions.Logging;
 using BP.Infrastructure.Interfaces.Admin;
-using BP.Infrastructure;
+using Microsoft.Extensions.Logging;
 
 namespace BP.Infrastructure.Repositories.Admin
 {
@@ -15,38 +14,17 @@ namespace BP.Infrastructure.Repositories.Admin
             this.logger = logger;
             this.context = context;
         }
-        public async Task<Guid> AddOperator(Guid guid)
+
+        public async Task<Guid> AddUser(string login, string password, string email, string name)
         {
-            var newOperator = new Operator
-            {
-                CreatedOn = DateTime.Now,
-                UpdatedOn = DateTime.Now,
-                Id = Guid.NewGuid(),
-                UserId = guid
-            };
+            var newUser = new User(login, password, email);
+            var newOperator = new Operator(newUser.Id, name);
 
-            await context.Operators.AddAsync(newOperator);
-
-            return newOperator.Id;
-        }
-
-        public async Task<Guid> AddUser(string login, string password, string email)
-        {
-            var newUser = new User
-            {
-                Id = Guid.NewGuid(),
-                Login = login,
-                PasswordHash = password,
-                Name = login + "_name",
-                Email = email,
-                CreatedOn = DateTime.Now,
-                UpdatedOn = DateTime.Now
-            };
-
-            var newOperator = await AddOperator(newUser.Id);
-            newUser.OperatorId = newOperator;
+            newUser.OperatorId = newOperator.Id;
 
             await context.Users.AddAsync(newUser);
+            await context.Operators.AddAsync(newOperator);
+
             await context.SaveChangesAsync();
 
             return newUser.Id;

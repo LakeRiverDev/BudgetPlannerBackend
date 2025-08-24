@@ -20,7 +20,7 @@ namespace BP.Api.Controllers.Admin
         [HttpPost("add")]
         public async Task<IActionResult> AddUser(NewUserDto newUserDto)
         {
-            var newUser = await adminService.AddUser(newUserDto.Login, newUserDto.Password, newUserDto.Email);
+            var newUser = await adminService.AddUser(newUserDto.Login, newUserDto.Password, newUserDto.Email, newUserDto.Name);
 
             return Ok($"Add user {newUser}");
         }

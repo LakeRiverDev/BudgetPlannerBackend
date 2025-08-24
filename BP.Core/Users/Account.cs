@@ -13,6 +13,14 @@
         /// <summary>
         /// Поле баланса
         /// </summary>
-        public decimal Balance {  get; set; } = 0;
+        public decimal Balance { get; set; } = 0;
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        public Account()
+        {
+            Id = Guid.NewGuid();
+        }
     }
 }

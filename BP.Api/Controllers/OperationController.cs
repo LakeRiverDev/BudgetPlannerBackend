@@ -1,7 +1,6 @@
 ﻿using BP.Api.Requests;
 using BP.Application.Interfaces;
 using BP.Core.Operations;
-using BP.Core.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BP.Api.Controllers
@@ -31,14 +30,14 @@ namespace BP.Api.Controllers
         public async Task<Guid> AddOperation(OperationDto operationDto, Guid operatorId)
         {
             var newOperation = Operation.Create(operationDto.Sum, operationDto.Reason,
-                operationDto.OperationType, operationDto.PaymentType, operationDto.PaymentCategory, operatorId);
+                operationDto.OperationType, operationDto.ReplenishmentType, operationDto.PaymentType, operationDto.PaymentCategory, operatorId);
 
             var result = await operationService.AddOperationAsync(newOperation);
 
             return result;
         }
 
-        [HttpPost("{operationId}/edit")]
+        [HttpPut("{operationId}/edit")]
         public async Task<Guid> EditOperation(EditOperationDto editOperationDto, Guid operationId)
         {           
             var editOperation = await operationService.EditOperationAsync(editOperationDto.Sum, editOperationDto.Reason, operationId);
