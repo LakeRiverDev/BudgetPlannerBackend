@@ -16,7 +16,7 @@ namespace BP.Infrastructure.Repositories
         }
 
         public async Task<Guid> Registration(User newUser, Operator newOperator, Account newAccount)
-        {            
+        {
             await context.Users.AddAsync(newUser);
             await context.Operators.AddAsync(newOperator);
             await context.Accounts.AddAsync(newAccount);
@@ -31,6 +31,30 @@ namespace BP.Infrastructure.Repositories
             var user = context.Users.Where(u => u.Login == login).FirstOrDefault();
 
             return user;
+        }
+
+        public bool UniqueEmail(string email)
+        {
+            var searchEmail = context.Users.Where(x => x.Email == email).FirstOrDefault();
+
+            if (searchEmail == null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UniqueLogin(string login)
+        {
+            var searchEmail = context.Users.Where(x => x.Login == login).FirstOrDefault();
+
+            if (searchEmail == null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

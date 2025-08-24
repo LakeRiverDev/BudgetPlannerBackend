@@ -55,7 +55,7 @@ namespace BP.Application.Services
 
             var passwordHashed = passwordHasher.Hash(password);
 
-            var registrationUser = await userRepository.Registration(login, passwordHashed, email, name);
+            var registrationUser = await userRepository.Registration(newUser, newOperator, newAccount);
 
             return registrationUser;
         }

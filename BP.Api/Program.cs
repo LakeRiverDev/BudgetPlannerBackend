@@ -8,9 +8,9 @@ using BP.Infrastructure.Interfaces;
 using BP.Infrastructure.Interfaces.Admin;
 using BP.Infrastructure.Repositories;
 using BP.Infrastructure.Repositories.Admin;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -18,7 +18,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation(
+    fv =>
+    {
+        fv.RegisterValidatorsFromAssemblyContaining<Program>();
+        fv.AutomaticValidationEnabled = true;
+        fv.ImplicitlyValidateChildProperties = true;
+    });
 
 builder.Services.AddScoped<IOperationService, OperationService>();
 builder.Services.AddScoped<IOperationRepository, OperationRepository>();
