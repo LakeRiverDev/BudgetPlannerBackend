@@ -1,4 +1,5 @@
 ﻿using BP.Application.Interfaces;
+using BP.Core.Accounts;
 using BP.Core.Users;
 using BP.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -40,12 +41,7 @@ namespace BP.Application.Services
             var token = jwtOperations.Generate(searchUserByLogin);
 
             return token;
-        }
-
-        public Task Logout(string login)
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
         public async Task<Guid> Registration(string login, string password, string email, string name)
         {

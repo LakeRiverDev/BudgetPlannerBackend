@@ -31,6 +31,16 @@
         public bool IsActive { get; set; } = true;
 
         /// <summary>
+        /// Последний активный Ip
+        /// </summary>
+        public string LastAccessIp { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Устройство, с которого заходили
+        /// </summary>
+        public string LastActiveDevice { get; set; } = string.Empty;       
+
+        /// <summary>
         /// Конструктор
         /// </summary>
         private User(string login, string password, string email)

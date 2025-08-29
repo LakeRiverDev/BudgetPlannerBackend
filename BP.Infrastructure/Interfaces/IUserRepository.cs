@@ -1,4 +1,5 @@
-﻿using BP.Core.Users;
+﻿using BP.Core.Accounts;
+using BP.Core.Users;
 
 namespace BP.Infrastructure.Interfaces
 {

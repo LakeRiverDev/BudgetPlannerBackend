@@ -129,6 +129,14 @@ namespace BP.DataBase.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("LastAccessIp")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastActiveDevice")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("text");

@@ -1,3 +1,4 @@
+using BP.Api.Extensions;
 using BP.Application;
 using BP.Application.Interfaces;
 using BP.Application.Interfaces.Admin;
@@ -17,7 +18,19 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Description = "BPlanner API Document",
+        Title = "BPlanner API",
+        Version = "v1",
+    });
+});
+
+var context = new CustomAssemblyLoadContext();
+context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+
 builder.Services.AddControllers().AddFluentValidation(
     fv =>
     {
@@ -37,6 +50,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
+builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 var connectionString = builder.Configuration.GetSection("ConnectionString");
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
@@ -79,6 +94,13 @@ builder.Services.AddAuthentication(
     });
 
 var app = builder.Build();
+
+app.UseReDoc(options =>
+{
+    options.DocumentTitle = "BPlanner API Document";
+    options.SpecUrl = "/swagger/v1/swagger.json";
+    options.RoutePrefix = "api-document";
+});
 
 if (app.Environment.IsDevelopment())
 {
