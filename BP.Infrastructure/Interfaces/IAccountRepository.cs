@@ -5,5 +5,7 @@
         Task<decimal> GetBalance(Guid accountId);
         Task<decimal> AddToBalance(Guid accountId, decimal sum);
         Task<decimal> PutToBalance(Guid accountId, decimal sum);
+        Task<Guid> SetLimitPerDay(Guid accountId, decimal limit);
+        Task<Guid> SetLimitPerMonth(Guid accountId, decimal limit);
     }
 }

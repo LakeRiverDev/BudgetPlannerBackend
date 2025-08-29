@@ -1,6 +1,5 @@
 ﻿using BP.Api.Requests.Admin;
 using BP.Application.Interfaces.Admin;
-using BP.Application.Services.Admin;
 using DinkToPdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

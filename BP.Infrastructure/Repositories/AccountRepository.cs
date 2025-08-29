@@ -59,5 +59,37 @@ namespace BP.Infrastructure.Repositories
 
             return putToBalance.Balance;
         }
+
+        /// <summary>
+        /// Установить лимит на день
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public async Task<Guid> SetLimitPerDay(Guid accountId, decimal limit)
+        {
+            var newLimit = await dbContext.Accounts.Where(a => a.Id == accountId).FirstOrDefaultAsync();
+            newLimit.SetLimitPerDay(limit);
+
+            await dbContext.SaveChangesAsync();
+
+            return accountId;
+        }
+
+        /// <summary>
+        /// Установить лимит на месяц
+        /// </summary>
+        /// <param name="accountId"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public async Task<Guid> SetLimitPerMonth(Guid accountId, decimal limit)
+        {
+            var newLimit = await dbContext.Accounts.Where(a => a.Id == accountId).FirstOrDefaultAsync();
+            newLimit.SetLimitPerMonth(limit);
+
+            await dbContext.SaveChangesAsync();
+
+            return accountId;
+        }
     }
 }

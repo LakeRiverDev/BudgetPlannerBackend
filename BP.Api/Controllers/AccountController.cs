@@ -27,5 +27,21 @@ namespace BP.Api.Controllers
 
             return balance;
         }
+
+        [HttpPost("limit-day")]
+        public async Task<Guid> SetLimitPerDay(Guid accountId, decimal limit)
+        {
+            var newLimit = await accountService.SetLimitPerDay(accountId, limit);
+
+            return newLimit;
+        }
+
+        [HttpPost("limit-month")]
+        public async Task<Guid> SetLimitPerMonth(Guid accountId, decimal limit)
+        {
+            var newLimit = await accountService.SetLimitPerMonth(accountId, limit);
+
+            return newLimit;
+        }
     }
 }

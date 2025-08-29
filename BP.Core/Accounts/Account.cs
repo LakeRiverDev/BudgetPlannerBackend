@@ -1,4 +1,6 @@
-﻿namespace BP.Core.Accounts
+﻿using System.Runtime.ConstrainedExecution;
+
+namespace BP.Core.Accounts
 {
     /// <summary>
     /// Описание сущности аккаунта(счета)
@@ -14,6 +16,16 @@
         /// Поле баланса
         /// </summary>
         public decimal Balance { get; private set; } = 0;
+
+        /// <summary>
+        /// Лимит на день
+        /// </summary>
+        public decimal LimitPerDay { get; private set; } = 0;
+
+        /// <summary>
+        /// Лимит на месяц
+        /// </summary>
+        public decimal LimitPerMonth { get; private set; } = 0;
 
         /// <summary>
         /// Конструктор
@@ -45,5 +57,17 @@
         /// </summary>
         /// <param name="sum"></param>
         public void PutToBalance(decimal sum) => Balance -= sum;
+
+        /// <summary>
+        /// Установить лимит на день
+        /// </summary>
+        /// <param name="limit"></param>
+        public void SetLimitPerDay(decimal limit) => LimitPerDay = limit;
+
+        /// <summary>
+        /// Установить лимит на месяц
+        /// </summary>
+        /// <param name="limit"></param>
+        public void SetLimitPerMonth(decimal limit) => LimitPerMonth = limit;
     }
 }
