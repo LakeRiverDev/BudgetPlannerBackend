@@ -8,8 +8,9 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace BP.Api.Controllers.Admin
 {
-    [Route("api/admin/users")]
+    [Route("api/admin/")]
     [ApiController]
+    [Authorize]
     public class AdminController : ControllerBase
     {
         private readonly ILogger<AdminController> logger;
@@ -25,8 +26,7 @@ namespace BP.Api.Controllers.Admin
             this.swaggerProvider = swaggerProvider;
         }
 
-        [HttpPost("add")]
-        [Authorize]
+        [HttpPost("add-user")]
         public async Task<IActionResult> AddUser(NewUserDto newUserDto)
         {
             var newUser = await adminService.AddUser(newUserDto.Login, newUserDto.Password, newUserDto.Email, newUserDto.Name);
@@ -35,7 +35,6 @@ namespace BP.Api.Controllers.Admin
         }
 
         [HttpGet("get-pdf-document")]
-        [Authorize]
         public async Task<IActionResult> GetPdfDocumentation()
         {
             var swagger = swaggerProvider.GetSwagger("v1");
