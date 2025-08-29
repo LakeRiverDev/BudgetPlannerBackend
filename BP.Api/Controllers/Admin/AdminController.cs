@@ -1,7 +1,10 @@
 ﻿using BP.Api.Requests.Admin;
 using BP.Application.Interfaces.Admin;
+using BP.Application.Services.Admin;
+using DinkToPdf;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace BP.Api.Controllers.Admin
 {
@@ -11,11 +14,15 @@ namespace BP.Api.Controllers.Admin
     {
         private readonly ILogger<AdminController> logger;
         private readonly IAdminService adminService;
+        private readonly IDocumentService documentService;
+        private readonly ISwaggerProvider swaggerProvider;
 
-        public AdminController(ILogger<AdminController> logger, IAdminService adminService)
+        public AdminController(ILogger<AdminController> logger, IAdminService adminService, IDocumentService documentService, ISwaggerProvider swaggerProvider)
         {
             this.logger = logger;
             this.adminService = adminService;
+            this.documentService = documentService;
+            this.swaggerProvider = swaggerProvider;
         }
 
         [HttpPost("add")]
@@ -25,6 +32,42 @@ namespace BP.Api.Controllers.Admin
             var newUser = await adminService.AddUser(newUserDto.Login, newUserDto.Password, newUserDto.Email, newUserDto.Name);
 
             return Ok($"Add user {newUser}");
+        }
+
+        [HttpGet("get-pdf-document")]
+        [Authorize]
+        public async Task<IActionResult> GetPdfDocumentation()
+        {
+            var swagger = swaggerProvider.GetSwagger("v1");
+
+            // Генерируем HTML           
+            var htmlContent = documentService.GeneratePdf(swagger);
+
+            // Конвертируем в PDF
+            var converter = new BasicConverter(new PdfTools());
+            var document = new HtmlToPdfDocument()
+            {
+                GlobalSettings =
+                {
+                    ColorMode = ColorMode.Color,
+                    Orientation = Orientation.Portrait,
+                    PaperSize = PaperKind.A4,
+                },
+                Objects =
+                {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent,
+                        WebSettings =
+                        {
+                            DefaultEncoding = "utf-8"
+                        }
+                    }
+                }
+            };
+
+            var pdfBytes = converter.Convert(document);
+            return File(pdfBytes, "application/pdf", "api-documentation.pdf");
         }
     }
 }

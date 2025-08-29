@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace BP.Application.Interfaces
+namespace BP.Application.Interfaces.Admin
 {
     public interface IDocumentService
     {
