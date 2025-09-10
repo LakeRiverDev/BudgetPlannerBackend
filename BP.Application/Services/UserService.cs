@@ -45,11 +45,11 @@ namespace BP.Application.Services
 
         public async Task<Guid> Registration(string email, string password, string name)
         {
-            var newUser = User.Create(email, password);
-            var newOperator = Operator.Create(newUser.Id, name);
-            var newAccount = Account.Create(newOperator.Id);
-
             var passwordHashed = passwordHasher.Hash(password);
+
+            var newUser = User.Create(email, passwordHashed);
+            var newOperator = Operator.Create(newUser.Id, name);
+            var newAccount = Account.Create(newOperator.Id);            
 
             var registrationUser = await userRepository.Registration(newUser, newOperator, newAccount);
 

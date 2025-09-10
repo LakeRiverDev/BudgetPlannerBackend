@@ -11,7 +11,7 @@ namespace BP.Infrastructure
         public BPlannerDbContext(DbContextOptions<BPlannerDbContext> options)
             : base(options) { }
 
-        public BPlannerDbContext() { }
+        //public BPlannerDbContext() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
