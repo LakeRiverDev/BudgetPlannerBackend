@@ -15,9 +15,9 @@ namespace BP.Application.Services.Admin
             this.adminRepository = adminRepository;
         }
 
-        public async Task<Guid> AddUser(string login, string password, string email, string name)
+        public async Task<Guid> AddUser(string email, string password, string name)
         {
-            var newUserId = await adminRepository.AddUser(login, password, email, name);
+            var newUserId = await adminRepository.AddUser(email, password, name);
 
             return newUserId;
         }

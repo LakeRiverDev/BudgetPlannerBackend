@@ -21,22 +21,12 @@ namespace BP.Api.Validation
             RuleFor(user => user.Password)
                 .Length(4, 32).WithMessage("Пароль должен содержать от 4 до 32 символов")
                 .NotEmpty().WithMessage("Не должно быть пустым")
-                .Matches("[0-9]").WithMessage("Пароль должен содержать цифры");
-
-            RuleFor(user => user.Login)
-                .Length(4, 32).WithMessage("Логин должен содержать от 4 до 32 символов")
-                .NotEmpty().WithMessage("Не должно быть пустым")
-                .Must(UniqueLogin).WithMessage("Этот логин уже занят");
+                .Matches("[0-9]").WithMessage("Пароль должен содержать цифры");            
 
             RuleFor(user => user.Name)
                 .Length(4, 32).WithMessage("Имя должно содержать от 4 до 32 символов")
                 .NotEmpty().WithMessage("Не должно быть пустым");
-        }
-
-        private bool UniqueLogin(string login)
-        {
-            return userRepository.UniqueLogin(login);
-        }
+        }        
 
         private bool UniqueEmail(string email)
         {

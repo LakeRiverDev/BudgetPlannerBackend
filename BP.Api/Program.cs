@@ -75,7 +75,7 @@ builder.Services.AddAuthentication(
         options.TokenValidationParameters = new()
         {
             ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["JwtOptions:Issuer"],
+            ValidIssuer = builder.Configuration["JwtOptions:Issuer"],           
             ValidateAudience = true,
             ValidAudience = builder.Configuration["JwtOptions:Audience"],
             ValidateIssuerSigningKey = true,

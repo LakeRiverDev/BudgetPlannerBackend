@@ -28,7 +28,7 @@ namespace BP.Api.Controllers.Admin
         [HttpPost("add-user")]
         public async Task<IActionResult> AddUser(NewUserDto newUserDto)
         {
-            var newUser = await adminService.AddUser(newUserDto.Login, newUserDto.Password, newUserDto.Email, newUserDto.Name);
+            var newUser = await adminService.AddUser(newUserDto.Email, newUserDto.Password, newUserDto.Name);
 
             return Ok($"Add user {newUser}");
         }

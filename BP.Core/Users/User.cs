@@ -6,11 +6,6 @@
     public class User : BaseEntity<Guid>
     {
         /// <summary>
-        /// Логин пользователя
-        /// </summary>
-        public string Login { get; private set; }
-
-        /// <summary>
         /// Хеш пароля пользователя
         /// </summary>
         public string PasswordHash { get; private set; }
@@ -31,6 +26,11 @@
         public bool IsActive { get; set; } = true;
 
         /// <summary>
+        /// Для проверки, подтверждена почта или нет
+        /// </summary>
+        public bool IsEmailConfirmed { get; private set; } = false;
+
+        /// <summary>
         /// Последний активный Ip
         /// </summary>
         public string LastAccessIp { get; set; } = string.Empty;
@@ -38,30 +38,28 @@
         /// <summary>
         /// Устройство, с которого заходили
         /// </summary>
-        public string LastActiveDevice { get; set; } = string.Empty;       
+        public string LastActiveDevice { get; set; } = string.Empty;
 
         /// <summary>
         /// Конструктор
         /// </summary>
-        private User(string login, string password, string email)
+        private User(string email, string password)
         {
             Id = Guid.NewGuid();
-            Login = login;
-            PasswordHash = password;
             Email = email;
+            PasswordHash = password;
             IsActive = true;
         }
 
         /// <summary>
-        /// Метод создания пользователя
+        /// 
         /// </summary>
-        /// <param name="login"></param>
-        /// <param name="password"></param>
         /// <param name="email"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
-        public static User Create(string login, string password, string email)
+        public static User Create(string email, string password)
         {
-            return new User(login, password, email);
+            return new User(email, password);
         }
 
         /// <summary>
