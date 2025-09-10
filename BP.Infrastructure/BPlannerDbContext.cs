@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 namespace BP.Infrastructure
 {
     public class BPlannerDbContext : DbContext
-    {
+    {        
         public BPlannerDbContext(DbContextOptions<BPlannerDbContext> options)
             : base(options) { }
 
@@ -16,7 +16,7 @@ namespace BP.Infrastructure
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);           
         }
 
         private ILoggerFactory CreateLoggerFactory() =>
