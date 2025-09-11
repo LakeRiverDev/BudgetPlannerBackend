@@ -2,6 +2,6 @@
 {
     public interface IAdminRepository
     {
-        Task<Guid> AddUser(string login, string password, string email, string name);
+        Task<Guid> AddUser(string email, string password, string name);
     }
 }

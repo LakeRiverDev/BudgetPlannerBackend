@@ -1,4 +1,5 @@
 ﻿using BP.Application.Interfaces;
+using BP.Core.Accounts;
 using BP.Core.Users;
 using BP.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -21,9 +22,9 @@ namespace BP.Application.Services
             this.passwordHasher = passwordHasher;
         }
 
-        public async Task<string> Login(string login, string password)
+        public async Task<string> Login(string email, string password)
         {
-            var searchUserByLogin = await userRepository.SearchUserByLogin(login);
+            var searchUserByLogin = await userRepository.SearchUserByEmail(email);
 
             if (searchUserByLogin == null)
             {
@@ -42,18 +43,13 @@ namespace BP.Application.Services
             return token;
         }
 
-        public Task Logout(string login)
+        public async Task<Guid> Registration(string email, string password, string name)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<Guid> Registration(string login, string password, string email, string name)
-        {
-            var newUser = User.Create(login, password, email);
-            var newOperator = Operator.Create(newUser.Id, name);
-            var newAccount = Account.Create(newOperator.Id);
-
             var passwordHashed = passwordHasher.Hash(password);
+
+            var newUser = User.Create(email, passwordHashed);
+            var newOperator = Operator.Create(newUser.Id, name);
+            var newAccount = Account.Create(newOperator.Id);            
 
             var registrationUser = await userRepository.Registration(newUser, newOperator, newAccount);
 

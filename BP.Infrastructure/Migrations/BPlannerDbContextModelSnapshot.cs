@@ -22,6 +22,35 @@ namespace BP.DataBase.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("BP.Core.Accounts.Account", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("numeric");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("LimitPerDay")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("LimitPerMonth")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("OperatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Accounts");
+                });
+
             modelBuilder.Entity("BP.Core.Operations.Operation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -61,29 +90,6 @@ namespace BP.DataBase.Migrations
                     b.HasIndex("OperatorId");
 
                     b.ToTable("Operations");
-                });
-
-            modelBuilder.Entity("BP.Core.Users.Account", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("numeric");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("OperatorId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("BP.Core.Users.Operator", b =>
@@ -129,7 +135,14 @@ namespace BP.DataBase.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Login")
+                    b.Property<bool>("IsEmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LastAccessIp")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastActiveDevice")
                         .IsRequired()
                         .HasColumnType("text");
 

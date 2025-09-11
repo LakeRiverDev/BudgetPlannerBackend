@@ -104,6 +104,6 @@ namespace BP.Application.Services
             var deleteOperation = await operationsRepository.DeleteOperationAsync(operationId);
 
             return deleteOperation;
-        }
+        }        
     }
 }

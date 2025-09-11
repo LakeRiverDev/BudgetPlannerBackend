@@ -4,7 +4,7 @@
     /// Описание операции(расход, приход д/c)
     /// </summary>
     public class Operation : BaseEntity<Guid>
-    {
+    {        
         /// <summary>
         /// Сумма операции
         /// </summary>
@@ -67,9 +67,9 @@
         /// <returns></returns>
         public static Operation Create(decimal sum, string reason, int operationType, int replenishmentType, int paymentType, int paymentCategory, Guid operatorId)
         {
-            if (sum == 0)
+            if (sum == 0 || sum < 0)
             {
-                throw new Exception("Sum does not 0 or null");
+                throw new Exception("The amount cannot be zero or less than zero");
             }
 
             return new Operation(sum, reason, operationType, replenishmentType, paymentType, paymentCategory, operatorId);

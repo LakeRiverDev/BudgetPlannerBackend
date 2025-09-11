@@ -1,4 +1,5 @@
-﻿using BP.Core.Users;
+﻿using BP.Core.Accounts;
+using BP.Core.Users;
 using BP.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -31,9 +32,9 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        public async Task<User> SearchUserByLogin(string login)
+        public async Task<User> SearchUserByEmail(string email)
         {
-            var user = dbContext.Users.Where(u => u.Login == login).FirstOrDefault();
+            var user = dbContext.Users.Where(u => u.Email == email).FirstOrDefault();
 
             return user;
         }
@@ -53,23 +54,6 @@ namespace BP.Infrastructure.Repositories
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// Найти пользователя по логину
-        /// </summary>
-        /// <param name="login"></param>
-        /// <returns></returns>
-        public bool UniqueLogin(string login)
-        {
-            var searchEmail = dbContext.Users.Where(x => x.Login == login).FirstOrDefault();
-
-            if (searchEmail == null)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        }        
     }
 }

@@ -21,5 +21,19 @@ namespace BP.Application.Services
 
             return balance;
         }
+
+        public Task<Guid> SetLimitPerDay(Guid accountId, decimal limit)
+        {
+            var newLimit = accountRepository.SetLimitPerDay(accountId, limit);
+
+            return newLimit;
+        }
+
+        public Task<Guid> SetLimitPerMonth(Guid accountId, decimal limit)
+        {
+            var newLimit = accountRepository.SetLimitPerDay(accountId, limit);
+
+            return newLimit;
+        }
     }
 }
