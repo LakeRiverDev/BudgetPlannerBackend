@@ -1,6 +1,6 @@
-﻿using BP.Core.Accounts;
+﻿using BP.Application.Interfaces;
+using BP.Core.Accounts;
 using BP.Core.Users;
-using BP.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace BP.Infrastructure.Repositories

@@ -1,5 +1,4 @@
 ﻿using BP.Application.Interfaces;
-using BP.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 
 namespace BP.Application.Services

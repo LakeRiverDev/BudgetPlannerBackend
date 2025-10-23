@@ -1,4 +1,4 @@
-﻿using BP.Infrastructure.Interfaces;
+﻿using BP.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

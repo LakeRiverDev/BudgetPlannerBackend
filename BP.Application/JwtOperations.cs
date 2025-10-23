@@ -9,7 +9,7 @@ using System.Text;
 namespace BP.Application
 {
     /// <summary>
-    /// Класс для генерации токеа
+    /// Класс для генерации токена
     /// </summary>
     public class JwtOperations
     {

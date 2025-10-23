@@ -5,7 +5,6 @@ using BP.Application.Interfaces.Admin;
 using BP.Application.Services;
 using BP.Application.Services.Admin;
 using BP.Infrastructure;
-using BP.Infrastructure.Interfaces;
 using BP.Infrastructure.Interfaces.Admin;
 using BP.Infrastructure.Repositories;
 using BP.Infrastructure.Repositories.Admin;
@@ -27,9 +26,6 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
     });
 });
-
-var context = new CustomAssemblyLoadContext();
-context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
 builder.Services.AddControllers().AddFluentValidation(
     fv =>
@@ -75,7 +71,7 @@ builder.Services.AddAuthentication(
         options.TokenValidationParameters = new()
         {
             ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["JwtOptions:Issuer"],           
+            ValidIssuer = builder.Configuration["JwtOptions:Issuer"],
             ValidateAudience = true,
             ValidAudience = builder.Configuration["JwtOptions:Audience"],
             ValidateIssuerSigningKey = true,

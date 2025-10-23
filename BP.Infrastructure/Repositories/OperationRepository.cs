@@ -1,5 +1,5 @@
-﻿using BP.Core.Operations;
-using BP.Infrastructure.Interfaces;
+﻿using BP.Application.Interfaces;
+using BP.Core.Operations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
