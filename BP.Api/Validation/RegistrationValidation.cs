@@ -1,5 +1,5 @@
-﻿using BP.Api.Requests;
-using BP.Application.Interfaces;
+﻿using BP.Application.Interfaces;
+using BP.Contracts;
 using FluentValidation;
 
 namespace BP.Api.Validation

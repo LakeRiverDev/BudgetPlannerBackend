@@ -1,6 +1,4 @@
-﻿using System.Runtime.ConstrainedExecution;
-
-namespace BP.Core.Accounts
+﻿namespace BP.Core.Accounts
 {
     /// <summary>
     /// Описание сущности аккаунта(счета)

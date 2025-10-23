@@ -1,4 +1,4 @@
-﻿using BP.Api.Requests;
+﻿using BP.Contracts;
 using FluentValidation;
 
 namespace BP.Api.Validation

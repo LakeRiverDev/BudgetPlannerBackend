@@ -1,4 +1,4 @@
-﻿namespace BP.Api.Requests
+﻿namespace BP.Contracts
 {
     public class LoginDto
     {
