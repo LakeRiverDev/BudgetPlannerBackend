@@ -1,6 +1,8 @@
 ﻿using BP.Application.Interfaces;
+using BP.Core;
 using BP.Core.Accounts;
 using BP.Core.Users;
+using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace BP.Application.Services
@@ -12,7 +14,9 @@ namespace BP.Application.Services
         private readonly JwtOperations jwtOperations;
         private readonly PasswordHasher passwordHasher;
 
-        public UserService(ILogger<UserService> logger, IUserRepository userRepository,
+        public UserService(
+            ILogger<UserService> logger, 
+            IUserRepository userRepository,
             JwtOperations jwtOperations, PasswordHasher passwordHasher)
         {
             this.logger = logger;
@@ -21,38 +25,41 @@ namespace BP.Application.Services
             this.passwordHasher = passwordHasher;
         }
 
-        public async Task<string> Login(string email, string password)
+        public async Task<Result<string, string>> Login(string email, string password)
         {
             var searchUserByLogin = await userRepository.SearchUserByEmail(email);
 
-            if (searchUserByLogin == null)
-            {
-                return "User is null";
-            }
+            if (searchUserByLogin.IsFailure)
+                return Result.Failure<string, string>("User is null");
 
-            var verifyPassword = passwordHasher.Verify(password, searchUserByLogin.PasswordHash);
+            var verifyPassword = passwordHasher.Verify(password, searchUserByLogin.Value.PasswordHash);
 
             if (verifyPassword == false)
-            {
-                return "Incorrect password";
-            }
+                return Result.Failure<string, string>("Incorrect password");
 
-            var token = jwtOperations.Generate(searchUserByLogin);
+            var token = jwtOperations.Generate(searchUserByLogin.Value);
+            
+            logger.LogInformation("User {email} successfully logged in", email);
 
-            return token;
+            return Result.Success<string, string>(token);
         }
 
-        public async Task<Guid> Registration(string email, string password, string name)
+        public async Task<Result<Guid, string>> Registration(string email, string password, string name)
         {
             var passwordHashed = passwordHasher.Hash(password);
 
-            var newUser = User.Create(email, passwordHashed);
-            var newOperator = Operator.Create(newUser.Id, name);
-            var newAccount = Account.Create(newOperator.Id);            
+            var newUser = User.Create(null, email, passwordHashed);
+            var newOperator = Operator.Create(null, newUser.Value.Id, name);
+            var newAccount = Account.Create(null, newOperator.Value.Id);
 
-            var registrationUser = await userRepository.Registration(newUser, newOperator, newAccount);
+            var registrationUser = await userRepository.Registration(
+                newUser.Value, 
+                newOperator.Value,
+                newAccount.Value);
+            
+            logger.LogInformation("User {email} successfully registered", email);
 
-            return registrationUser;
+            return Result.Success<Guid, string>(registrationUser.Value);
         }
     }
 }

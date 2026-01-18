@@ -28,9 +28,7 @@ namespace BP.Api.Validation
                 .NotEmpty().WithMessage("Не должно быть пустым");
         }        
 
-        private bool UniqueEmail(string email)
-        {
-            return userRepository.UniqueEmail(email);
-        }
+        private bool UniqueEmail(string email) => 
+            userRepository.UniqueEmail(email);
     }
 }

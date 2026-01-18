@@ -5,7 +5,6 @@ using BP.Application.Interfaces.Admin;
 using BP.Application.Services;
 using BP.Application.Services.Admin;
 using BP.Infrastructure;
-using BP.Infrastructure.Interfaces.Admin;
 using BP.Infrastructure.Repositories;
 using BP.Infrastructure.Repositories.Admin;
 using FluentValidation.AspNetCore;

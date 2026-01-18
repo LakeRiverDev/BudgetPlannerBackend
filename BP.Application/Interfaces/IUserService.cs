@@ -1,8 +1,11 @@
-﻿namespace BP.Application.Interfaces
+﻿using CSharpFunctionalExtensions;
+
+namespace BP.Application.Interfaces
 {
     public interface IUserService
     {
-        Task<string> Login(string email, string password);        
-        Task<Guid> Registration(string email, string password, string name);
+        Task<Result<string, string>> Login(string email, string password);
+
+        Task<Result<Guid, string>> Registration(string email, string password, string name);
     }
 }

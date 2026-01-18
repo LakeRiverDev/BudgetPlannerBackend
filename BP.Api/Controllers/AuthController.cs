@@ -21,9 +21,15 @@ namespace BP.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegistrationDto registrationDto)
         {
-            var register = await userService.Registration(registrationDto.Email, registrationDto.Password, registrationDto.Name);
+            var register = await userService.Registration(
+                registrationDto.Email, 
+                registrationDto.Password, 
+                registrationDto.Name);
+            
+            if (register.IsFailure)
+                return BadRequest(register.Error);
 
-            return Ok("User registered");
+            return Ok($"User registered {register.Value}");
         }
 
         [HttpPost("login")]
@@ -33,11 +39,13 @@ namespace BP.Api.Controllers
             var device = HttpContext.Request.Headers["User-Agent"];
 
             var login = await userService.Login(loginDto.Login, loginDto.Password);
+            if (login.IsFailure)
+                return BadRequest(login.Error);
 
             var httpContext = HttpContext;
-            httpContext.Response.Cookies.Append("bp", login);
+            httpContext.Response.Cookies.Append("bp", login.Value);
 
-            return Ok("User logged in");
+            return Ok($"User logged in {login.Value}");
         }
 
         [HttpPost("logout")]

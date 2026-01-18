@@ -1,6 +1,9 @@
 ﻿using BP.Application.Interfaces;
+using BP.Core;
 using BP.Core.Accounts;
 using BP.Core.Users;
+using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace BP.Infrastructure.Repositories
@@ -16,14 +19,23 @@ namespace BP.Infrastructure.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<Guid> Registration(User newUser, Operator newOperator, Account newAccount)
+        public async Task<Result<Guid, string>> Registration(User newUser, Operator newOperator, Account newAccount)
         {
             await dbContext.Users.AddAsync(newUser);
             await dbContext.Operators.AddAsync(newOperator);
             await dbContext.Accounts.AddAsync(newAccount);
-
-            await dbContext.SaveChangesAsync();
-
+            
+            try
+            {
+                await dbContext.SaveChangesAsync();
+                
+                logger.LogInformation("User created a new account with password");
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure<Guid, string>(ex.Message);
+            }
+            
             return newUser.Id;
         }
 
@@ -32,9 +44,14 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        public async Task<User> SearchUserByEmail(string email)
+        public async Task<Result<User, string>> SearchUserByEmail(string email)
         {
-            var user = dbContext.Users.Where(u => u.Email == email).FirstOrDefault();
+            var user = await dbContext.Users
+                .Where(u => u.Email == email)
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+                return Result.Failure<User, string>("User not found");
 
             return user;
         }
@@ -46,12 +63,12 @@ namespace BP.Infrastructure.Repositories
         /// <returns></returns>
         public bool UniqueEmail(string email)
         {
-            var searchEmail = dbContext.Users.Where(x => x.Email == email).FirstOrDefault();
+            var searchEmail = dbContext.Users
+                .Where(x => x.Email == email)
+                .FirstOrDefault();
 
             if (searchEmail == null)
-            {
                 return true;
-            }
 
             return false;
         }        

@@ -1,9 +1,12 @@
-﻿namespace BP.Core.Operations
+﻿using BP.Core.Shared;
+using CSharpFunctionalExtensions;
+
+namespace BP.Core.Operations
 {
     /// <summary>
     /// Описание операции(расход, приход д/c)
     /// </summary>
-    public class Operation : BaseEntity<Guid>
+    public sealed class Operation : BaseEntity<Guid>
     {        
         /// <summary>
         /// Сумма операции
@@ -49,9 +52,17 @@
         /// <param name="paymentType"></param>
         /// <param name="paymentCategory"></param>
         /// <param name="operatorId"></param>
-        private Operation(decimal sum, string reason, int operationType, int replenishmentType, int paymentType, int paymentCategory, Guid operatorId)
+        private Operation(
+            Guid? id,
+            decimal sum, 
+            string reason, 
+            int operationType, 
+            int replenishmentType, 
+            int paymentType, 
+            int paymentCategory, 
+            Guid operatorId)
         {
-            Id = Guid.NewGuid();
+            Id = id ?? Guid.NewGuid();
             Sum = sum;
             Reason = reason;
             OperationType = operationType;
@@ -65,15 +76,30 @@
         /// Метод создания операции
         /// </summary>
         /// <returns></returns>
-        public static Operation Create(decimal sum, string reason, int operationType, int replenishmentType, int paymentType, int paymentCategory, Guid operatorId)
+        public static Result<Operation, string> Create(
+            Guid? id,
+            decimal sum, 
+            string reason, 
+            int operationType, 
+            int replenishmentType, 
+            int paymentType, 
+            int paymentCategory, 
+            Guid operatorId)
         {
             if (sum == 0 || sum < 0)
             {
-                throw new Exception("The amount cannot be zero or less than zero");
+                return Result.Failure<Operation, string>("The amount cannot be zero or less than zero");
             }
 
-            return new Operation(sum, reason, operationType, replenishmentType, paymentType, paymentCategory, operatorId);
+            return new Operation(
+                id,
+                sum, 
+                reason,
+                operationType, 
+                replenishmentType, 
+                paymentType, 
+                paymentCategory,
+                operatorId);
         }
-
     }
 }
