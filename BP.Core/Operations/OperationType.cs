@@ -1,17 +1,17 @@
 ﻿namespace BP.Core.Operations
 {
     /// <summary>
-    /// Тип операции (расход, приход д/c)
+    /// Тип операции
     /// </summary>    
     public enum OperationType
     {
         /// <summary>
-        /// Приход
+        /// Приход д/с
         /// </summary>
         Replenishment = 0,
 
         /// <summary>
-        /// Расход
+        /// Расход д/с
         /// </summary>
         Spending = 1,
     }

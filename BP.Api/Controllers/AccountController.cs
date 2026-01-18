@@ -1,6 +1,5 @@
 ﻿using BP.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace BP.Api.Controllers
 {
@@ -21,27 +20,33 @@ namespace BP.Api.Controllers
         }
 
         [HttpGet("balance")]
-        public async Task<decimal> GetBalance(Guid accountId)
+        public async Task<IActionResult> GetBalance(Guid accountId)
         {
-            var balance = await accountService.GetBalance(accountId);
+            var balanceResult = await accountService.GetBalance(accountId);
+            if (balanceResult.IsFailure)
+                return BadRequest(balanceResult.Error);
 
-            return balance;
+            return Ok(balanceResult.Value);
         }
 
         [HttpPost("limit-day")]
-        public async Task<Guid> SetLimitPerDay(Guid accountId, decimal limit)
+        public async Task<IActionResult> SetLimitPerDay(Guid accountId, decimal limit)
         {
-            var newLimit = await accountService.SetLimitPerDay(accountId, limit);
+            var newLimitResult = await accountService.SetLimitPerDay(accountId, limit);
+            if (newLimitResult.IsFailure)
+                return BadRequest(newLimitResult.Error);
 
-            return newLimit;
+            return Ok(newLimitResult.Value);
         }
 
         [HttpPost("limit-month")]
-        public async Task<Guid> SetLimitPerMonth(Guid accountId, decimal limit)
+        public async Task<IActionResult> SetLimitPerMonth(Guid accountId, decimal limit)
         {
-            var newLimit = await accountService.SetLimitPerMonth(accountId, limit);
+            var newLimitResult = await accountService.SetLimitPerMonth(accountId, limit);
+            if (newLimitResult.IsFailure)
+                return BadRequest(newLimitResult.Error);
 
-            return newLimit;
+            return Ok(newLimitResult.Value);
         }
     }
 }
