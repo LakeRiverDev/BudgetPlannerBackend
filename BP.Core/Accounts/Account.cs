@@ -1,4 +1,7 @@
-﻿namespace BP.Core.Accounts
+﻿using BP.Core.Shared;
+using CSharpFunctionalExtensions;
+
+namespace BP.Core.Accounts
 {
     /// <summary>
     /// Описание сущности аккаунта(счета)
@@ -28,9 +31,9 @@
         /// <summary>
         /// Конструктор
         /// </summary>
-        private Account(Guid operatorId)
+        private Account(Guid? id, Guid operatorId)
         {
-            Id = Guid.NewGuid();
+            Id = id ?? Guid.NewGuid();
             OperatorId = operatorId;
         }
 
@@ -39,9 +42,9 @@
         /// </summary>
         /// <param name="operatorId"></param>
         /// <returns></returns>
-        public static Account Create(Guid operatorId)
+        public static Result<Account, string> Create(Guid? id, Guid operatorId)
         {
-            return new Account(operatorId);
+            return new Account(id, operatorId);
         }
 
         /// <summary>

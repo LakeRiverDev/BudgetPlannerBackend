@@ -1,4 +1,4 @@
-﻿namespace BP.Core
+﻿namespace BP.Core.Shared
 {
     /// <summary>
     /// Базовая сущность, от отороый все другие сущности наследуются
@@ -20,14 +20,20 @@
         /// Дата обновления записи
         /// </summary>
         public DateTime UpdatedOn { get; set; }
+        
+        /// <summary>
+        /// Для soft-delete функионала
+        /// </summary>
+        public bool IsDeleted { get; set; }
 
         /// <summary>
         /// Конструктор
         /// </summary>
         public BaseEntity()
         {
-            CreatedOn = DateTime.Now;
-            UpdatedOn = DateTime.Now;
+            CreatedOn = DateTime.UtcNow;
+            UpdatedOn = CreatedOn;
+            IsDeleted = false;
         }
     }
 }

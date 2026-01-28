@@ -1,6 +1,8 @@
-﻿using BP.Core.Accounts;
+﻿using BP.Application.Interfaces.Admin;
+using BP.Core;
+using BP.Core.Accounts;
 using BP.Core.Users;
-using BP.Infrastructure.Interfaces.Admin;
+using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace BP.Infrastructure.Repositories.Admin
@@ -16,21 +18,42 @@ namespace BP.Infrastructure.Repositories.Admin
             this.context = context;
         }
 
-        public async Task<Guid> AddUser(string email, string password, string name)
+        public async Task<Result<Guid, string>> AddUser(string email, string password, string name)
         {
-            var newUser = User.Create(email, password);
-            var newOperator = Operator.Create(newUser.Id, name);
-            var newAccount = Account.Create(newOperator.Id);
+            var newUser = User.Create(null, email, password);
+            if (newUser.IsFailure)
+                return Result.Failure<Guid, string>(newUser.Error);
+            
+            logger.LogInformation("User created {@User}", newUser);
 
-            newUser.OperatorId = newOperator.Id;
+            var newOperator = Operator.Create(null, newUser.Value.Id, name);
+            if (newOperator.IsFailure)
+                return Result.Failure<Guid, string>(newOperator.Error);
+            
+            logger.LogInformation("Operator created {@Operator}", newOperator.Value);
 
-            await context.Users.AddAsync(newUser);
-            await context.Operators.AddAsync(newOperator);
-            await context.Accounts.AddAsync(newAccount);
+            var newAccount = Account.Create(null, newOperator.Value.Id);
+            if (newAccount.IsFailure)
+                return Result.Failure<Guid, string>(newAccount.Error);
+            
+            logger.LogInformation("Account created {@Account}", newAccount);
 
-            await context.SaveChangesAsync();
+            newUser.Value.AddToOperatorId(newOperator.Value.Id);
+            
+            await context.Users.AddAsync(newUser.Value);
+            await context.Operators.AddAsync(newOperator.Value);
+            await context.Accounts.AddAsync(newAccount.Value);
 
-            return newUser.Id;
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Result.Failure<Guid, string>(ex.Message);
+            }
+
+            return newUser.Value.Id;
         }
     }
 }

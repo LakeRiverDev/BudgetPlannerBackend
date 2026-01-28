@@ -1,5 +1,6 @@
 ﻿using BP.Application.Interfaces;
 using BP.Core.Operations;
+using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -23,21 +24,16 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="operatorId"></param>
         /// <returns></returns>
-        public IEnumerable<Operation> GetAllOperationsByOperatorIdAsync(Guid operatorId)
+        public async Task<Result<IEnumerable<Operation>>> GetAllOperationsByOperatorIdAsync(Guid operatorId)
         {
-            try
-            {
-                var operations = dbContext.Operations.Where(o => o.OperatorId == operatorId);
-
-                logger.LogInformation("Getting all operation on operatorId");
-
-                return operations;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                throw;
-            }
+            var operations = await dbContext.Operations
+                .AsNoTracking()
+                .Where(o => o.OperatorId == operatorId)
+                .ToListAsync();
+            
+            logger.LogInformation("Get all operations by operator {operatorId}", operatorId);
+            
+            return operations;
         }
 
         /// <summary>
@@ -45,9 +41,18 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="operationId"></param>
         /// <returns></returns>
-        public async Task<Operation> GetOperation(Guid operationId)
+        public async Task<Result<Operation, string>> GetOperation(Guid operationId)
         {
-            return await dbContext.Operations.Where(o => o.Id == operationId).FirstOrDefaultAsync();
+            var operation = await dbContext.Operations
+                .Where(o => o.Id == operationId)
+                .FirstOrDefaultAsync();
+            
+            if (operation == null)
+                return Result.Failure<Operation, string>("Operation not found");
+            
+            logger.LogInformation("Get operation {operationId}", operationId);
+
+            return operation;
         }
 
         /// <summary>
@@ -55,19 +60,21 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="operation"></param>
         /// <returns></returns>
-        public async Task AddOperationAsync(Operation operation)
+        public async Task<UnitResult<string>> AddOperationAsync(Operation operation)
         {
+            await dbContext.Operations.AddAsync(operation);
+            
             try
             {
-                await dbContext.Operations.AddAsync(operation);
                 await dbContext.SaveChangesAsync();
 
                 logger.LogInformation("Add operation");
+                
+                return "Operation added";
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
-                throw;
+                return  Result.Failure<string>(ex.Message);
             }
         }
 
@@ -76,7 +83,7 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="operation"></param>
         /// <returns></returns>
-        public async Task<Guid> EditOperationAsync(decimal sum, string reason, Guid operationId)
+        public async Task<Result<Guid, string>> EditOperationAsync(decimal sum, string reason, Guid operationId)
         {
             try
             {
@@ -93,8 +100,7 @@ namespace BP.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
-                throw;
+                return  Result.Failure<Guid, string>(ex.Message);
             }
         }
 
@@ -103,13 +109,13 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="operationId"></param>
         /// <returns></returns>
-        public async Task<Guid> DeleteOperationAsync(Guid operationId)
+        public async Task<Result<Guid, string>> DeleteOperationAsync(Guid operationId)
         {
             try
             {
                 await dbContext.Operations
                     .Where(o => o.Id == operationId)
-                .ExecuteDeleteAsync();
+                    .ExecuteDeleteAsync();
 
                 logger.LogInformation("Delete operation");
 
@@ -117,8 +123,7 @@ namespace BP.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
-                throw;
+                return  Result.Failure<Guid, string>(ex.Message);
             }
         }
     }
