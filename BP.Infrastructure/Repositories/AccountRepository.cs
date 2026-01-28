@@ -1,4 +1,5 @@
 ﻿using BP.Application.Interfaces;
+using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -23,25 +24,39 @@ namespace BP.Infrastructure.Repositories
         /// </summary>
         /// <param name="accountId"></param>
         /// <returns></returns>
-        public async Task<decimal> GetBalance(Guid accountId)
+        public async Task<Result<decimal, string>> GetBalance(Guid accountId)
         {
-            var balance = await dbContext.Accounts.Where(a => a.Id == accountId).FirstOrDefaultAsync();
+            var account = await dbContext.Accounts
+                .Where(a => a.Id == accountId)
+                .FirstOrDefaultAsync();
 
-            return balance.Balance;
+            if (account == null)
+                return Result.Failure<decimal, string>("Account not found");
+            
+            logger.LogInformation("Getting balance for {accountId}", accountId);
+            
+            return account.Balance;
         }
 
         /// <summary>
-        /// Добавить на баланск средств
+        /// Добавить на баланс средств
         /// </summary>
         /// <returns></returns>
-        public async Task<decimal> AddToBalance(Guid accountId, decimal sum)
+        public async Task<Result<decimal, string>> AddToBalance(Guid accountId, decimal sum)
         {
-            var addToBalance = await dbContext.Accounts.Where(a => a.Id == accountId).FirstOrDefaultAsync();
-            addToBalance.AddToBalance(sum);
-
+            var account = await dbContext.Accounts
+                .Where(a => a.Id == accountId)
+                .FirstOrDefaultAsync();
+            
+            if (account == null)
+                return Result.Failure<decimal, string>("Account not found");
+            
+            account.AddToBalance(sum);
             await dbContext.SaveChangesAsync();
+            
+            logger.LogInformation("Adding to balance for {accountId}", accountId);
 
-            return addToBalance.Balance;
+            return account.Balance;
         }
 
         /// <summary>
@@ -50,14 +65,21 @@ namespace BP.Infrastructure.Repositories
         /// <param name="accountId"></param>
         /// <param name="sum"></param>
         /// <returns></returns>
-        public async Task<decimal> PutToBalance(Guid accountId, decimal sum)
+        public async Task<Result<decimal, string>> PutToBalance(Guid accountId, decimal sum)
         {
-            var putToBalance = await dbContext.Accounts.Where(a => a.Id == accountId).FirstOrDefaultAsync();
-            putToBalance.PutToBalance(sum);
-
+            var account = await dbContext.Accounts
+                .Where(a => a.Id == accountId)
+                .FirstOrDefaultAsync();
+            
+            if (account == null)
+                return Result.Failure<decimal, string>("Account not found");
+            
+            account.PutToBalance(sum);
             await dbContext.SaveChangesAsync();
+            
+            logger.LogInformation("Putting to balance for {accountId}", accountId);
 
-            return putToBalance.Balance;
+            return account.Balance;
         }
 
         /// <summary>
@@ -66,12 +88,19 @@ namespace BP.Infrastructure.Repositories
         /// <param name="accountId"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<Guid> SetLimitPerDay(Guid accountId, decimal limit)
+        public async Task<Result<Guid, string>> SetLimitPerDay(Guid accountId, decimal limit)
         {
-            var newLimit = await dbContext.Accounts.Where(a => a.Id == accountId).FirstOrDefaultAsync();
-            newLimit.SetLimitPerDay(limit);
-
+            var account = await dbContext.Accounts
+                .Where(a => a.Id == accountId)
+                .FirstOrDefaultAsync();
+            
+            if (account == null)
+                return Result.Failure<Guid, string>("Account not found");
+            
+            account.SetLimitPerDay(limit);
             await dbContext.SaveChangesAsync();
+
+            logger.LogInformation("Setting limit per day for {accountId}", accountId);
 
             return accountId;
         }
@@ -82,12 +111,19 @@ namespace BP.Infrastructure.Repositories
         /// <param name="accountId"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public async Task<Guid> SetLimitPerMonth(Guid accountId, decimal limit)
+        public async Task<Result<Guid, string>> SetLimitPerMonth(Guid accountId, decimal limit)
         {
-            var newLimit = await dbContext.Accounts.Where(a => a.Id == accountId).FirstOrDefaultAsync();
-            newLimit.SetLimitPerMonth(limit);
-
+            var account = await dbContext.Accounts
+                .Where(a => a.Id == accountId)
+                .FirstOrDefaultAsync();
+            
+            if (account == null)
+                return Result.Failure<Guid, string>("Account not found");
+            
+            account.SetLimitPerMonth(limit);
             await dbContext.SaveChangesAsync();
+            
+            logger.LogInformation("Setting limit per month for {accountId}", accountId);
 
             return accountId;
         }

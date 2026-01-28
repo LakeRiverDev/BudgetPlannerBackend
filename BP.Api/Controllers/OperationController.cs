@@ -19,38 +19,57 @@ namespace BP.Api.Controllers
         }
 
         [HttpGet("{operatorId}")]
-        public IEnumerable<Operation> GetOperations(Guid operatorId)
+        public async Task<IEnumerable<Operation>> GetOperations(Guid operatorId)
         {
-            var result = operationService.GetAllOperationsByOperatorIdAsync(operatorId);
+            var result = await operationService.GetAllOperationsByOperatorIdAsync(operatorId);
+            if (result.IsFailure)
+                return Enumerable.Empty<Operation>();
 
-            return result;
+            return result.Value;
         }
 
         [HttpPost("{operatorId}")]
-        public async Task<Guid> AddOperation(OperationDto operationDto, Guid operatorId)
+        public async Task<IActionResult> AddOperation(OperationDto operationDto, Guid operatorId)
         {
-            var newOperation = Operation.Create(operationDto.Sum, operationDto.Reason,
-                operationDto.OperationType, operationDto.ReplenishmentType, operationDto.PaymentType, operationDto.PaymentCategory, operatorId);
+            var newOperation = Operation.Create(
+                null,
+                operationDto.Sum, 
+                operationDto.Reason,
+                operationDto.OperationType,
+                operationDto.ReplenishmentType,
+                operationDto.PaymentType, 
+                operationDto.PaymentCategory, 
+                operatorId);
 
-            var result = await operationService.AddOperationAsync(newOperation);
+            var result = await operationService.AddOperationAsync(newOperation.Value);
+            if (result.IsFailure)
+                return BadRequest(result.Error);
 
-            return result;
+            return Ok(result.Value);
         }
 
         [HttpPut("{operationId}/edit")]
-        public async Task<Guid> EditOperation(EditOperationDto editOperationDto, Guid operationId)
+        public async Task<IActionResult> EditOperation(EditOperationDto editOperationDto, Guid operationId)
         {           
-            var editOperation = await operationService.EditOperationAsync(editOperationDto.Sum, editOperationDto.Reason, operationId);
+            var editOperation = await operationService.EditOperationAsync(
+                editOperationDto.Sum, 
+                editOperationDto.Reason, 
+                operationId);
 
-            return editOperation;
+            if (editOperation.IsFailure)
+                return BadRequest(editOperation.Error);
+
+            return Ok(editOperation.Value);
         }
 
         [HttpDelete("{operationId}/delete")]
-        public async Task<Guid> DeleteOperation(Guid operationId)
+        public async Task<IActionResult> DeleteOperation(Guid operationId)
         {
             var deleteOperation = await operationService.DeleteOperationAsync(operationId);
+            if (deleteOperation.IsFailure)
+                return BadRequest(deleteOperation.Error);
 
-            return deleteOperation;
+            return Ok(deleteOperation.Value);
         }
     }
 }

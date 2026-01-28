@@ -1,38 +1,40 @@
 ﻿using BP.Core.Operations;
+using BP.Core.Shared;
+using CSharpFunctionalExtensions;
 
-namespace BP.Core.Users
+namespace BP.Core
 {
     /// <summary>
     /// Сущность оператора
     /// </summary>
-    public class Operator : BaseEntity<Guid>
+    public sealed class Operator : BaseEntity<Guid>
     {
         /// <summary>
         /// Для связи с пользователем
         /// </summary>
-        public Guid UserId { get; set; }
+        public Guid UserId { get; private set; }
 
         /// <summary>
         /// Настоящее имя пользователя
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         /// <summary>
         /// Операции пользователя
         /// </summary>
-        public List<Operation> Operations { get; set; }
+        public IReadOnlyCollection<Operation> Operations { get; private set; } = [];
 
         /// <summary>
         /// Для связи со счетом
         /// </summary>
-        public Guid AccountId { get; set; } = Guid.Empty;
+        public Guid AccountId { get; private set; }
 
         /// <summary>
         /// Конструктор
         /// </summary>
-        private Operator(Guid userId, string name)
+        private Operator(Guid? id, Guid userId, string name)
         {
-            Id = Guid.NewGuid();
+            Id = id ?? Guid.NewGuid();
             UserId = userId;
             Name = name;
         }
@@ -43,9 +45,10 @@ namespace BP.Core.Users
         /// <param name="userId"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static Operator Create(Guid userId, string name)
+        public static Result<Operator, string> Create(Guid? id, Guid userId, string name)
+
         {
-            return new Operator(userId, name);
+            return new Operator(id, userId, name);
         }
     }
 }

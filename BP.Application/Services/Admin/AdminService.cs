@@ -1,5 +1,5 @@
 ﻿using BP.Application.Interfaces.Admin;
-using BP.Infrastructure.Interfaces.Admin;
+using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 
 namespace BP.Application.Services.Admin
@@ -15,11 +15,15 @@ namespace BP.Application.Services.Admin
             this.adminRepository = adminRepository;
         }
 
-        public async Task<Guid> AddUser(string email, string password, string name)
+        public async Task<Result<Guid, string>> AddUser(string email, string password, string name)
         {
-            var newUserId = await adminRepository.AddUser(email, password, name);
+            var newUserResult = await adminRepository.AddUser(email, password, name);
+            if (newUserResult.IsFailure)
+                return Result.Failure<Guid, string>(newUserResult.Error);
+            
+            logger.LogInformation($"User {email} successfully added");
 
-            return newUserId;
+            return newUserResult.Value;
         }
     }
 }

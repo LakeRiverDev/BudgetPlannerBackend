@@ -1,7 +1,9 @@
-﻿namespace BP.Application.Interfaces.Admin
+﻿using CSharpFunctionalExtensions;
+
+namespace BP.Application.Interfaces.Admin
 {
     public interface IAdminService
     {
-        Task<Guid> AddUser(string email, string passwod, string name);
+        Task<Result<Guid, string>> AddUser(string email, string password, string name);
     }
 }

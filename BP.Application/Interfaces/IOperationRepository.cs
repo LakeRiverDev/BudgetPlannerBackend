@@ -1,13 +1,18 @@
 ﻿using BP.Core.Operations;
+using CSharpFunctionalExtensions;
 
 namespace BP.Application.Interfaces
 {
     public interface IOperationRepository
     {
-        public IEnumerable<Operation> GetAllOperationsByOperatorIdAsync(Guid operatorId);
-        public Task<Operation> GetOperation(Guid operationId);
-        public Task AddOperationAsync(Operation operation);
-        public Task<Guid> EditOperationAsync(decimal sum, string reason, Guid operationId);
-        public Task<Guid> DeleteOperationAsync(Guid operationId);
+        Task <Result<IEnumerable<Operation>>> GetAllOperationsByOperatorIdAsync(Guid operatorId);
+
+        Task<Result<Operation, string>> GetOperation(Guid operationId);
+
+        Task<UnitResult<string>> AddOperationAsync(Operation operation);
+        
+        Task<Result<Guid, string>> EditOperationAsync(decimal sum, string reason, Guid operationId);
+
+        Task<Result<Guid, string>> DeleteOperationAsync(Guid operationId);
     }
 }
