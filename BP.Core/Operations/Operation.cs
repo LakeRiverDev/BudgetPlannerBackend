@@ -71,6 +71,9 @@ namespace BP.Core.Operations
             PaymentCategory = paymentCategory;
             OperatorId = operatorId;
         }
+        
+        // EFCore
+        public Operation(){}
 
         /// <summary>
         /// Метод создания операции

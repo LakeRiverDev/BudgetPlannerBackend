@@ -38,6 +38,9 @@ namespace BP.Core
             UserId = userId;
             Name = name;
         }
+        
+        //EFCore
+        public Operator(){}
 
         /// <summary>
         /// Метод создания оператора

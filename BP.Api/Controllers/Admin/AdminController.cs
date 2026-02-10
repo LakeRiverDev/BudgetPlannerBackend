@@ -33,7 +33,7 @@ namespace BP.Api.Controllers.Admin
             return Ok($"Add user {newUser}");
         }
 
-        [HttpGet("get-pdf-document")]
+        /*[HttpGet("get-pdf-document")]
         public async Task<IActionResult> GetPdfDocumentation()
         {
             var swagger = swaggerProvider.GetSwagger("v1");
@@ -66,6 +66,6 @@ namespace BP.Api.Controllers.Admin
 
             var pdfBytes = converter.Convert(document);
             return File(pdfBytes, "application/pdf", "api-documentation.pdf");
-        }
+        }*/
     }
 }

@@ -37,6 +37,9 @@ namespace BP.Core.Accounts
             OperatorId = operatorId;
         }
 
+        // EFCore
+        public Account(){}
+
         /// <summary>
         /// Метод создания аккаунта(счета)
         /// </summary>

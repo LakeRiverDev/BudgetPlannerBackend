@@ -1,58 +1,18 @@
 using BP.Api.Extensions;
-using BP.Application;
-using BP.Application.Interfaces;
-using BP.Application.Interfaces.Admin;
-using BP.Application.Services;
-using BP.Application.Services.Admin;
 using BP.Infrastructure;
-using BP.Infrastructure.Repositories;
-using BP.Infrastructure.Repositories.Admin;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BP.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-    {
-        Description = "BPlanner API Document",
-        Title = "BPlanner API",
-        Version = "v1",
-    });
-});
+builder.Services.AddExtensions(builder.Configuration);
+//builder.Services.AddScoped<IDocumentService, DocumentService>();
 
-builder.Services.AddControllers().AddFluentValidation(
-    fv =>
-    {
-        fv.RegisterValidatorsFromAssemblyContaining<Program>();
-        fv.AutomaticValidationEnabled = true;
-        fv.ImplicitlyValidateChildProperties = true;
-    });
-
-builder.Services.AddScoped<IOperationService, OperationService>();
-builder.Services.AddScoped<IOperationRepository, OperationRepository>();
-
-builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<IAdminRepository, AdminRepository>();
-
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-builder.Services.AddScoped<IAccountService, AccountService>();
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-
-builder.Services.AddScoped<IDocumentService, DocumentService>();
-
-var connectionString = builder.Configuration.GetSection("ConnectionString");
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
-
-builder.Services.AddScoped<PasswordHasher>();
-builder.Services.AddScoped<JwtOperations>();
+var connectionString = builder.Configuration.GetSection("ConnectionString");
 
 builder.Services.AddDbContext<BPlannerDbContext>(
     options =>

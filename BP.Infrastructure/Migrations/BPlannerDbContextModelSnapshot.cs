@@ -34,6 +34,9 @@ namespace BP.DataBase.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<decimal>("LimitPerDay")
                         .HasColumnType("numeric");
 
@@ -59,6 +62,9 @@ namespace BP.DataBase.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("OperationType")
                         .HasColumnType("integer");
@@ -92,7 +98,7 @@ namespace BP.DataBase.Migrations
                     b.ToTable("Operations");
                 });
 
-            modelBuilder.Entity("BP.Core.Users.Operator", b =>
+            modelBuilder.Entity("BP.Core.Operator", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,6 +109,9 @@ namespace BP.DataBase.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -135,6 +144,9 @@ namespace BP.DataBase.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsEmailConfirmed")
                         .HasColumnType("boolean");
 
@@ -163,14 +175,14 @@ namespace BP.DataBase.Migrations
 
             modelBuilder.Entity("BP.Core.Operations.Operation", b =>
                 {
-                    b.HasOne("BP.Core.Users.Operator", null)
+                    b.HasOne("BP.Core.Operator", null)
                         .WithMany("Operations")
                         .HasForeignKey("OperatorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BP.Core.Users.Operator", b =>
+            modelBuilder.Entity("BP.Core.Operator", b =>
                 {
                     b.Navigation("Operations");
                 });
