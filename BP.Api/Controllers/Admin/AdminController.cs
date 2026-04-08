@@ -32,40 +32,5 @@ namespace BP.Api.Controllers.Admin
 
             return Ok($"Add user {newUser}");
         }
-
-        /*[HttpGet("get-pdf-document")]
-        public async Task<IActionResult> GetPdfDocumentation()
-        {
-            var swagger = swaggerProvider.GetSwagger("v1");
-
-            // Генерируем HTML           
-            var htmlContent = documentService.GeneratePdf(swagger);
-
-            // Конвертируем в PDF
-            var converter = new BasicConverter(new PdfTools());
-            var document = new HtmlToPdfDocument()
-            {
-                GlobalSettings =
-                {
-                    ColorMode = ColorMode.Color,
-                    Orientation = Orientation.Portrait,
-                    PaperSize = PaperKind.A4,
-                },
-                Objects =
-                {
-                    new ObjectSettings()
-                    {
-                        HtmlContent = htmlContent,
-                        WebSettings =
-                        {
-                            DefaultEncoding = "utf-8"
-                        }
-                    }
-                }
-            };
-
-            var pdfBytes = converter.Convert(document);
-            return File(pdfBytes, "application/pdf", "api-documentation.pdf");
-        }*/
     }
 }

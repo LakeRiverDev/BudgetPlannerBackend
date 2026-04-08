@@ -9,7 +9,6 @@ using BP.Application;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddExtensions(builder.Configuration);
-//builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("JwtOptions"));
 var connectionString = builder.Configuration.GetSection("ConnectionString");

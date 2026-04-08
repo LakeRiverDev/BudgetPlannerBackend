@@ -1,12 +1,14 @@
 ﻿using BP.Application.Interfaces;
 using BP.Contracts;
 using BP.Core.Operations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BP.Api.Controllers
 {
     [Route("api/v1/operation")]
     [ApiController]
+    [Authorize]
     public class OperationController : ControllerBase
     {
         private readonly ILogger<OperationController> logger;
