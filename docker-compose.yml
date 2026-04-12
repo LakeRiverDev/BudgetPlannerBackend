@@ -6,6 +6,7 @@ services:
       dockerfile: BP.Api/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionString=Server=budget-planner-db;Port=5432;Database=bp_db;User Id=postgres;Password=postgres;
     ports:
       - 7013:8080
     volumes:
