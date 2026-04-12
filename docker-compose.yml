@@ -1,4 +1,16 @@
 services:
+  backend-api:
+    container_name: budget-planner-api
+    build:
+      context: .
+      dockerfile: BP.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - 7013:8080
+    volumes:
+      - api-data:/var/lib/api
+      
   postgres:
     container_name: budget-planner-db
     image: postgres:17
@@ -14,3 +26,4 @@ services:
 
 volumes:
   postgres-data:
+  api-data:

@@ -51,6 +51,9 @@ namespace BP.Application.Services
             var newUser = User.Create(null, email, passwordHashed);
             var newOperator = Operator.Create(null, newUser.Value.Id, name);
             var newAccount = Account.Create(null, newOperator.Value.Id);
+            
+            newUser.Value.AddToOperatorId(newOperator.Value.Id);
+            newOperator.Value.AddToAccountId(newAccount.Value.Id);
 
             var registrationUser = await userRepository.Registration(
                 newUser.Value, 

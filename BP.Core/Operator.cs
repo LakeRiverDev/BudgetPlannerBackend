@@ -49,9 +49,15 @@ namespace BP.Core
         /// <param name="name"></param>
         /// <returns></returns>
         public static Result<Operator, string> Create(Guid? id, Guid userId, string name)
-
         {
             return new Operator(id, userId, name);
         }
+        
+        /// <summary>
+        /// Метод добавления accountId
+        /// </summary>
+        /// <param name="id"></param>
+        public void AddToAccountId(Guid id) => 
+            AccountId = id;
     }
 }
