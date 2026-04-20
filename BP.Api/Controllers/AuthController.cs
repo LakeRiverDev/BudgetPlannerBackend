@@ -35,9 +35,6 @@ namespace BP.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var ip = HttpContext.Request.Headers["Host"];
-            var device = HttpContext.Request.Headers["User-Agent"];
-
             var login = await userService.Login(loginDto.Email, loginDto.Password);
             if (login.IsFailure)
                 return BadRequest(login.Error);
