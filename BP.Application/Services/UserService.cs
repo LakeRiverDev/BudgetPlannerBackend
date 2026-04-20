@@ -11,13 +11,13 @@ namespace BP.Application.Services
     {
         private readonly ILogger<UserService> logger;
         private readonly IUserRepository userRepository;
-        private readonly JwtOperations jwtOperations;
-        private readonly PasswordHasher passwordHasher;
+        private readonly IJwtOperations jwtOperations;
+        private readonly IPasswordHasher passwordHasher;
 
         public UserService(
-            ILogger<UserService> logger, 
+            ILogger<UserService> logger,
             IUserRepository userRepository,
-            JwtOperations jwtOperations, PasswordHasher passwordHasher)
+            IJwtOperations jwtOperations, IPasswordHasher passwordHasher)
         {
             this.logger = logger;
             this.userRepository = userRepository;
@@ -38,7 +38,7 @@ namespace BP.Application.Services
                 return Result.Failure<string, string>("Incorrect password");
 
             var token = jwtOperations.Generate(searchUserByLogin.Value);
-            
+
             logger.LogInformation("User {email} successfully logged in", email);
 
             return Result.Success<string, string>(token);
@@ -53,10 +53,10 @@ namespace BP.Application.Services
             var newAccount = Account.Create(null, newOperator.Value.Id);
 
             var registrationUser = await userRepository.Registration(
-                newUser.Value, 
+                newUser.Value,
                 newOperator.Value,
                 newAccount.Value);
-            
+
             logger.LogInformation("User {email} successfully registered", email);
 
             return Result.Success<Guid, string>(registrationUser.Value);
