@@ -43,7 +43,7 @@ public class UserServiceTests
         Assert.True(result.IsFailure);
         Assert.Equal("User is null", result.Error);
     }
-    
+
     [Fact]
     public async Task Login_WhenPasswordIncorrect_ReturnsError()
     {
@@ -58,7 +58,7 @@ public class UserServiceTests
             .Returns(false);
 
         var result = await sut.Login("test@mail.com", "wrongPassword");
-        
+
         Assert.True(result.IsFailure);
         Assert.Equal("Incorrect password", result.Error);
     }
@@ -67,21 +67,21 @@ public class UserServiceTests
     public async Task Login_WhenPasswordCorrect_ReturnsToken()
     {
         var user = User.Create(null, "test@mail.com", "hashedPassword").Value;
-        
+
         _userRepositoryMock
-            .Setup(x=>x.SearchUserByEmail("test@mail.com"))
+            .Setup(x => x.SearchUserByEmail("test@mail.com"))
             .ReturnsAsync(Result.Success<User, string>(user));
-        
+
         _passwordHasherMock
-            .Setup(x => x.Verify("wrongPassword", "hashedPassword"))
+            .Setup(x => x.Verify("password", "hashedPassword"))
             .Returns(true);
 
         _jwtOperationsMock
             .Setup(x => x.Generate(user))
             .Returns("fake-jwt-token");
-        
+
         var result = await sut.Login("test@mail.com", "password");
-        
+
         Assert.True(result.IsSuccess);
         Assert.Equal("fake-jwt-token", result.Value);
     }
