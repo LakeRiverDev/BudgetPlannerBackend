@@ -85,4 +85,17 @@ public class UserServiceTests
         Assert.True(result.IsSuccess);
         Assert.Equal("fake-jwt-token", result.Value);
     }
+    
+    [Fact]
+    public async Task Registration_WhenUserEmailAlreadyExists_ReturnsError()
+    {
+        _userRepositoryMock
+            .Setup(x=>x.SearchUserByEmail("test@mail.com"))
+            .ReturnsAsync(Result.Failure<User, string>("Email already exists"));
+
+        var result = await sut.Registration("test@mail.com", "password", "testName");
+        
+        Assert.True(result.IsFailure);
+        Assert.Equal("Email already exists", result.Error);
+    }
 }
