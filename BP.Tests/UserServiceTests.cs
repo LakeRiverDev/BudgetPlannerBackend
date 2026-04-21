@@ -93,12 +93,12 @@ public class UserServiceTests
     {
         _userRepositoryMock
             .Setup(x => x.SearchUserByEmail("test@mail.com"))
-            .ReturnsAsync(Result.Failure<User, string>("Email already exists"));
+            .ReturnsAsync(Result.Success<User, string>(new User()));
 
         var result = await sut.Registration("test@mail.com", "password", "testName");
 
         Assert.True(result.IsFailure);
-        Assert.Equal("Email already exists", result.Error);
+        Assert.Equal("User with this email already exists", result.Error);
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class UserServiceTests
     {
         _userRepositoryMock
             .Setup(x => x.SearchUserByEmail("test@mail.com"))
-            .ReturnsAsync(Result.Failure<User, string>("Registration failed"));
+            .ReturnsAsync(Result.Success<User, string>(new User()));
 
         _userRepositoryMock
             .Setup(x => x.Registration(
@@ -118,27 +118,28 @@ public class UserServiceTests
         var result = await sut.Registration("test@mail.com", "password", "testName");
 
         Assert.True(result.IsFailure);
-        Assert.Equal("Registration failed", result.Error);
+        Assert.Equal("User with this email already exists", result.Error);
     }
 
     [Fact]
     public async Task Registration_WhenUserRegistrationSucceeds_ReturnsSuccess()
     {
+        var expectedId = Guid.NewGuid();
+
         _userRepositoryMock
-            .Setup(x=>x.SearchUserByEmail("test@mail.com"))
-            .ReturnsAsync(Result.Success<User, string>(new User()));
+            .Setup(x => x.SearchUserByEmail("test@mail.com"))
+            .ReturnsAsync(Result.Failure<User, string>("Not found"));
 
         _userRepositoryMock
             .Setup(x => x.Registration(
                 It.IsAny<User>(),
                 It.IsAny<Operator>(),
                 It.IsAny<Account>()))
-            .ReturnsAsync(Result.Success<Guid, string>(new User().Id));
+            .ReturnsAsync(Result.Success<Guid, string>(expectedId));
 
         var result = await sut.Registration("test@mail.com", "password", "testName");
         
         Assert.True(result.IsSuccess);
-        Assert.Equal(Result.Success<Guid, string>(new User().Id), result.Value);
+        Assert.Equal(expectedId, result.Value);
     }
-
 }
