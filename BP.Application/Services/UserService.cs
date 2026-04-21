@@ -48,6 +48,10 @@ namespace BP.Application.Services
         {
             var passwordHashed = passwordHasher.Hash(password);
 
+            var existingUser = await userRepository.SearchUserByEmail(email);
+            if (existingUser.IsFailure)
+                return Result.Failure<Guid, string>(existingUser.Error);
+            
             var newUser = User.Create(null, email, passwordHashed);
             var newOperator = Operator.Create(null, newUser.Value.Id, name);
             var newAccount = Account.Create(null, newOperator.Value.Id);

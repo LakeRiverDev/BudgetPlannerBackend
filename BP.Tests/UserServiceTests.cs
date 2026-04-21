@@ -1,6 +1,8 @@
 ﻿using BP.Application;
 using BP.Application.Interfaces;
 using BP.Application.Services;
+using BP.Core;
+using BP.Core.Accounts;
 using BP.Core.Users;
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
@@ -85,17 +87,58 @@ public class UserServiceTests
         Assert.True(result.IsSuccess);
         Assert.Equal("fake-jwt-token", result.Value);
     }
-    
+
     [Fact]
     public async Task Registration_WhenUserEmailAlreadyExists_ReturnsError()
     {
         _userRepositoryMock
-            .Setup(x=>x.SearchUserByEmail("test@mail.com"))
+            .Setup(x => x.SearchUserByEmail("test@mail.com"))
             .ReturnsAsync(Result.Failure<User, string>("Email already exists"));
 
         var result = await sut.Registration("test@mail.com", "password", "testName");
-        
+
         Assert.True(result.IsFailure);
         Assert.Equal("Email already exists", result.Error);
     }
+
+    [Fact]
+    public async Task Registration_WhenUserRegistrationFails_ReturnsError()
+    {
+        _userRepositoryMock
+            .Setup(x => x.SearchUserByEmail("test@mail.com"))
+            .ReturnsAsync(Result.Failure<User, string>("Registration failed"));
+
+        _userRepositoryMock
+            .Setup(x => x.Registration(
+                It.IsAny<User>(),
+                It.IsAny<Operator>(),
+                It.IsAny<Account>()))
+            .ReturnsAsync(Result.Failure<Guid, string>("Registration failed"));
+
+        var result = await sut.Registration("test@mail.com", "password", "testName");
+
+        Assert.True(result.IsFailure);
+        Assert.Equal("Registration failed", result.Error);
+    }
+
+    [Fact]
+    public async Task Registration_WhenUserRegistrationSucceeds_ReturnsSuccess()
+    {
+        _userRepositoryMock
+            .Setup(x=>x.SearchUserByEmail("test@mail.com"))
+            .ReturnsAsync(Result.Success<User, string>(new User()));
+
+        _userRepositoryMock
+            .Setup(x => x.Registration(
+                It.IsAny<User>(),
+                It.IsAny<Operator>(),
+                It.IsAny<Account>()))
+            .ReturnsAsync(Result.Success<Guid, string>(new User().Id));
+
+        var result = await sut.Registration("test@mail.com", "password", "testName");
+        
+        Assert.True(result.IsSuccess);
+        Assert.Equal(Result.Success<Guid, string>(new User().Id), result.Value);
+    }
+
 }
