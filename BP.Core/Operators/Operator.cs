@@ -2,7 +2,7 @@
 using BP.Core.Shared;
 using CSharpFunctionalExtensions;
 
-namespace BP.Core
+namespace BP.Core.Operators
 {
     /// <summary>
     /// Сущность оператора
