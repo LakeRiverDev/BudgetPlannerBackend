@@ -1,6 +1,8 @@
-﻿namespace BP.Application
+﻿using BP.Application.Interfaces;
+
+namespace BP.Application
 {
-    public class PasswordHasher
+    public class PasswordHasher : IPasswordHasher
     {
         public string Hash(string password)
         {

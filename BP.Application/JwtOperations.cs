@@ -5,13 +5,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BP.Application.Interfaces;
 
 namespace BP.Application
 {
     /// <summary>
     /// Класс для генерации токена
     /// </summary>
-    public class JwtOperations
+    public class JwtOperations  : IJwtOperations
     {
         private readonly ILogger<JwtOperations> logger;
         private readonly IOptions<JwtOptions> options;

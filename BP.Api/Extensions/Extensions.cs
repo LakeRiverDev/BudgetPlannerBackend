@@ -24,28 +24,27 @@ public static class Extensions
             });
         });
 
-        services.AddControllers().AddFluentValidation(
-            fv =>
-            {
-                fv.RegisterValidatorsFromAssemblyContaining<Program>();
-                fv.AutomaticValidationEnabled = true;
-                fv.ImplicitlyValidateChildProperties = true;
-            });
-        
+        services.AddControllers().AddFluentValidation(fv =>
+        {
+            fv.RegisterValidatorsFromAssemblyContaining<Program>();
+            fv.AutomaticValidationEnabled = true;
+            fv.ImplicitlyValidateChildProperties = true;
+        });
+
         services.AddScoped<IAdminService, AdminService>();
         services.AddScoped<IAdminRepository, AdminRepository>();
 
         services.AddScoped<IOperationService, OperationService>();
         services.AddScoped<IOperationRepository, OperationRepository>();
-        
+
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IUserRepository, UserRepository>();
 
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IAccountRepository, AccountRepository>();
 
-        services.AddScoped<PasswordHasher>();
-        services.AddScoped<JwtOperations>();
+        services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IJwtOperations, JwtOperations>();
 
         return services;
     }
